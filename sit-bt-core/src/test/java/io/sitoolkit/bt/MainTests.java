@@ -55,8 +55,11 @@ public class MainTests {
     Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.md").toURI());
     Path outputFile = inputFile.getParent().resolve("file_en.md");
 
-    main.execute(new String[] {"-m", "ja2en", inputFile.toString()});
+    main.execute(new String[] {"-m", "ja2en", inputFile.toString() + "->" + outputFile.toString()});
 
-    assertEquals("This is a pen.", Files.readString(outputFile));
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.md").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
 }

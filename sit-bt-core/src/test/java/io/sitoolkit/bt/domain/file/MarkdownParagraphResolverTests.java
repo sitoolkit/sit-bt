@@ -19,6 +19,6 @@ public class MarkdownParagraphResolverTests {
 
     System.out.println(paragraphs);
 
-    assertEquals(5, paragraphs.size());
+    assertEquals(6, paragraphs.size());
   }
 }
