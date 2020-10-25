@@ -6,7 +6,7 @@ import org.apache.maven.plugin.testing.resources.TestResources;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class MainMojoTests {
+public class MainMojoTest {
   @Rule public MojoRule mojoRule = new MojoRule();
 
   @Rule public TestResources resources = new TestResources();
