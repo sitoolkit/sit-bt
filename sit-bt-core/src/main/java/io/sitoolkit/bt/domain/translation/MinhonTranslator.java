@@ -15,29 +15,23 @@ public class MinhonTranslator implements Translator {
   private final AtConfig config;
 
   public String ja2en(String text) {
-    String response =
-        webClient.post(
-            "https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_ja_en/", createParams(text));
-
-    return JsonPath.read(response, "$.resultset.result.text");
+    return translator(text, "https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_ja_en/");
   }
 
   @Override
   public String en2ja(String text) {
-    String response =
-        webClient.post(
-            "https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_en_ja/", createParams(text));
-
-    return JsonPath.read(response, "$.resultset.result.text");
+    return translator(text, "https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_en_ja/");
   }
 
-  private Map<String, String> createParams(String text) {
+  private String translator(String text, String apiUrl) {
     Map<String, String> params = new HashMap<>();
 
     params.put("key", config.getApiKey());
     params.put("name", config.getUser());
     params.put("type", "json");
     params.put("text", text);
-    return params;
+
+    String response = webClient.post(apiUrl, params);
+    return JsonPath.read(response, "$.resultset.result.text");
   }
 }
