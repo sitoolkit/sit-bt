@@ -15,21 +15,23 @@ public class MinhonTranslator implements Translator {
   private final AtConfig config;
 
   public String ja2en(String text) {
+    return translate(text, "https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_ja_en/");
+  }
+
+  @Override
+  public String en2ja(String text) {
+    return translate(text, "https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_en_ja/");
+  }
+
+  private String translate(String text, String apiUrl) {
     Map<String, String> params = new HashMap<>();
 
     params.put("key", config.getApiKey());
     params.put("name", config.getUser());
     params.put("type", "json");
     params.put("text", text);
-    String response =
-        webClient.post("https://mt-auto-minhon-mlt.ucri.jgn-x.jp/api/mt/generalNT_ja_en/", params);
 
+    String response = webClient.post(apiUrl, params);
     return JsonPath.read(response, "$.resultset.result.text");
-  }
-
-  @Override
-  public String en2ja(String text) {
-    // TODO Auto-generated method stub
-    return null;
   }
 }
