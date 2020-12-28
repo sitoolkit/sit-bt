@@ -2,12 +2,12 @@
 
 # Batch Translator
 
-The Batch Translator is a CLI tool that translates text files.
-The primary intended audience is OSS development project members who need to translate the README and documentation.
-The main uses are :
+The Batch Translator is a CLI tool for translating text files.
+The primary intended audience is OSS development project members who need to translate the README or documentation.
+The main usage is as follows.
 
-- Translate 1 files (for example, README. md)
-- Bulk translation of files with a specific extension under the directory (AsciiDoctor, for example, https://asciidoctor.org/) documents)
+- Translation of a single file, such as README. md
+- Bulk translation of files with a specific extension under the directory, such as AsciiDoctor (https://asciidoctor.org/) - based documents)
 
 ## Consumer
 
@@ -16,24 +16,24 @@ The main uses are :
 The following software is required to run the Batch Translator :
 
 - Java 11+
-- Maven 3.6 + (for use as a Maven Plugin)
+- Maven 3.6 + for use as Maven Plugin
 
 #### Usage
 
-Run the Batch Translator as a Java command or Maven Plugin.
+Run the Batch Translator as a Java command or as a Maven Plugin.
 
-1. Create API Key (#Create API Key)
-1. Execute as Java Command or Maven Plugin
+1. Create API Key (Create #API Key)
+1. Run as a Java Command or as a Maven Plugin
 
 #### Creating an API Key
 
-Batch Translator uses Minna no Hon' yaku @ TexTra ® as its translation engine. To use the translation feature, create an account at the following site :
+The Batch Translator uses "Minna no Hon' yaku @ TexTra ®" as its translation engine. To use the translation function, create an account at the following site.
 
 https://mt-auto-minhon-mlt.ucri.jgn-x.jp/
 
-Once the account is created, save the user ID, API KEY, and API SECRET in https://mt-auto-minhon-mlt.ucri.jgn-x.jp/content/setting/user/edit/) to the sit-at. properties file.
+After you create the account, click the Settings Page (in https://mt-auto-minhon-mlt.ucri.jgn-x.jp/content/setting/user/edit/), save the user ID, API KEY, and API SECRET in the sit-at. properties file.
 
-Create and store the sit-at. properties file in a directory named. sitoolkit under the user home directory.
+Create a directory named. sitoolkit under the user home directory and save the sit-at. properties file there.
 
 - Windows
 
@@ -60,7 +60,7 @@ name=your_user_name
 ```
 
 
-#### Run with a Java command
+#### Run with ####Java commands
 
 ```
 curl -o sit-bt-0.8.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core-0.8.jar
@@ -68,23 +68,23 @@ curl -o sit-bt-0.8.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-cor
 java -jar sit-bt-0.8.jar -m Mode target
 ```
 
-Example 1) Command to Translate README _ ja. md from Japanese to English and Output to README. md
+Example 1) Command to translate README _ ja. md from Japanese to English and to output to README. md
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en "README_ja.md->README.md"
+java -jar sit-bt-0.8.jar -m ja2en README_ja.md:README.md
 ```
 
 
-Example 2. docs directory Command to translate all files with adoc extension under the docs directory from Japanese to English and print them to the docs/en directory.
+Example 2) Command to translate all files with adoc extension under docs directory from Japanese to English and output to docs/en directory
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en -p *.adoc "docs->docs/en"
+java -jar sit-bt-0.8.jar -m ja2en -p *.adoc docs:docs/en
 ```
 
 
 #### Run as Maven Plugin
 
-Add the Batch Traslator Maven plugin to pom. xml.
+Add the Batch Traslator Maven Plugin to pom. xml.
 
 - pom.xml
 
@@ -102,14 +102,14 @@ Add the Batch Traslator Maven plugin to pom. xml.
 
 
 ```
-mvn sit-bt:translate -Dmode=ja2en -Dtarget=README_ja.md->README.md
+mvn sit-bt:translate -Dmode=ja2en -Dtarget=README_ja.md:README.md
 ```
 
 
-### Bug Reports, Feature Requests
+### bug reports, feature requests
 
-If you have any bugs or feature requests related to the Batch Translator, please refer to the GitHub project's Issues (Issue to https://github.com/sitoolkit/sit-bt/issues)).
+If you have a bug or feature request related to the Batch Translator, please issue an issue to https://github.com/sitoolkit/sit-bt/issues).
 
-## License
+## license
 
-The Batch Translator is published in Apache Lisence 2.0.
+The Batch Translator is exposed at Apache Lisence 2.0.

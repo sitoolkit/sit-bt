@@ -61,7 +61,7 @@
 
   <target name="translate-readme">
     <exec executable="${mvn.cmd}" dir="${basedir}" failonerror="true">
-      <arg line="-f sit-bt-core exec:java -Dexec.args='-m ja2en README_ja.md->README.md'" />
+      <arg line="-f sit-bt-core exec:java -Dexec.args='-m ja2en README_ja.md:README.md'" />
     </exec>
 
     <replace file="README.md" token="[English](README.md)" value="[日本語](README_ja.md)"/>
