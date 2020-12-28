@@ -63,7 +63,7 @@ name=your_user_name
 #### Run with ####Java commands
 
 ```
-curl -o sit-bt-0.8.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core-0.8.jar
+curl -o sit-bt-0.8.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core-0.9.jar
 
 java -jar sit-bt-0.8.jar -m Mode target
 ```
@@ -94,7 +94,7 @@ Add the Batch Traslator Maven Plugin to pom. xml.
     <plugin>
         <groupId>io.sitoolkit.bt</groupId>
         <artifactId>sit-bt-maven-plugin</artifactId>
-        <version>0.8</version>
+        <version>0.9</version>
     </plugin>
   </plugins>
 </build>
