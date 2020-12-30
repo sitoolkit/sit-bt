@@ -68,11 +68,21 @@ public class MarkdownParagraphResolver {
     return matcher.group();
   }
 
-  public String correct(String translatedText, Paragraph paragraph) {
+  public String correct(Paragraph paragraph) {
+    return correct(
+        paragraph.getText(),
+        paragraph.getTranslatedText(),
+        paragraph.getEscapePrefix(),
+        paragraph.isIgnored());
+  }
 
-    String escapePrefix = paragraph.getEscapePrefix();
+  public String correct(
+      String originalText, String translatedText, String escapePrefix, boolean ignored) {
 
-    // 待避接頭辞が未設定の場合は、補正しない
+    if (ignored) {
+      return originalText;
+    }
+
     if (escapePrefix.isEmpty()) {
       return translatedText;
     }

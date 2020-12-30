@@ -6,7 +6,9 @@ import io.sitoolkit.bt.infrastructure.web.WebClient;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class MinhonTranslator implements Translator {
 
@@ -32,6 +34,11 @@ public class MinhonTranslator implements Translator {
     params.put("text", text);
 
     String response = webClient.post(apiUrl, params);
-    return JsonPath.read(response, "$.resultset.result.text");
+    String translatedText = JsonPath.read(response, "$.resultset.result.text");
+
+    log.debug("Original Text: {}", text);
+    log.debug("Translated Text: {}", translatedText);
+
+    return translatedText;
   }
 }

@@ -1,12 +1,16 @@
 package io.sitoolkit.bt.application;
 
 import io.sitoolkit.bt.domain.file.MarkdownParagraphResolver;
+import io.sitoolkit.bt.domain.file.Paragraph;
+import io.sitoolkit.bt.domain.file.ParagraphGroup;
 import io.sitoolkit.bt.domain.translation.TranslationSpec;
 import io.sitoolkit.bt.domain.translation.Translator;
+import io.sitoolkit.bt.infrastructure.command.TranslationMode;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileTranslationService {
 
   private final Translator translator;
+  private final MarkdownParagraphResolver resolver;
 
   public void translate(TranslationSpec spec) {
 
@@ -34,27 +39,30 @@ public class FileTranslationService {
         return;
       }
 
-      // String inputText = Files.readString(spec.getInputFile());
-      // String outputText = translator.translate(spec.getMode(), inputText);
-
-      MarkdownParagraphResolver resolver = new MarkdownParagraphResolver();
-      String outputText =
-          resolver.resolve(spec.getInputFile()).stream()
-              .map(
-                  paragraph -> {
-                    if (paragraph.isIgnored()) {
-                      return paragraph.getText();
-                    } else {
-                      return resolver.correct(
-                          translator.translate(spec.getMode(), paragraph.getText()), paragraph);
-                    }
-                  })
-              .collect(Collectors.joining(System.lineSeparator()));
+      String outputText = translate(spec.getInputFile(), spec.getMode());
 
       Files.writeString(spec.getOutputFile(), outputText);
 
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
+
+  String translate(Path file, TranslationMode mode) {
+    List<Paragraph> paragraphs = resolver.resolve(file);
+
+    if (log.isDebugEnabled()) {
+      for (Paragraph paragraph : paragraphs) {
+        log.debug("Paragraph: {}", paragraph);
+      }
+    }
+
+    List<ParagraphGroup> groups = ParagraphGroup.grouping(paragraphs);
+
+    groups.stream().forEach(group -> group.reduce(translator.translate(mode, group.getAllText())));
+
+    return paragraphs.stream()
+        .map(resolver::correct)
+        .collect(Collectors.joining(System.lineSeparator()));
   }
 }

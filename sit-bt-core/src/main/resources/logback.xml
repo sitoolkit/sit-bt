@@ -7,7 +7,7 @@
     </encoder>
   </appender>
 
-  <logger name="io.sitoolkit.bt" level="${at.logging.level:-INFO}"/>
+  <logger name="io.sitoolkit.bt" level="${io.sitoolkit.bt.logging.level:-INFO}"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

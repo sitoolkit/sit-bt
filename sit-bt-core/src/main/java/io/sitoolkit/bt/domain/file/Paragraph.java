@@ -1,16 +1,18 @@
 package io.sitoolkit.bt.domain.file;
 
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
+@Data
 public class Paragraph {
 
+  @Setter(AccessLevel.PRIVATE)
   private StringBuilder text = new StringBuilder();
 
-  @Getter @Setter private boolean ignored = false;
-  @Getter @Setter private String escapePrefix = "";
+  private boolean ignored = false;
+  private String escapePrefix = "";
+  private String translatedText = "";
 
   public void append(String line) {
     if (text.length() > 0) {
