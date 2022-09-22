@@ -71,14 +71,14 @@ java -jar sit-bt-0.8.jar -m Mode target
 Example 1) Command to translate README _ ja. md from Japanese to English and to output to README. md
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en README_ja.md:README.md
+java -jar sit-bt-0.8.jar -m ja2en README_ja.md->README.md
 ```
 
 
 Example 2) Command to translate all files with adoc extension under docs directory from Japanese to English and output to docs/en directory
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en -p *.adoc docs:docs/en
+java -jar sit-bt-0.8.jar -m ja2en -p *.adoc docs->docs/en
 ```
 
 
@@ -102,7 +102,7 @@ Add the Batch Traslator Maven Plugin to pom. xml.
 
 
 ```
-mvn sit-bt:translate -Dmode=ja2en -Dtarget=README_ja.md:README.md
+mvn sit-bt:translate -Dmode=ja2en -Dtarget=README_ja.md->README.md
 ```
 
 
