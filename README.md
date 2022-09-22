@@ -63,22 +63,22 @@ name=your_user_name
 #### Run with ####Java commands
 
 ```
-curl -o sit-bt-0.8.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core-0.9.jar
+curl -o sit-bt-0.9.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core/0.9/sit-bt-core-0.9.jar
 
-java -jar sit-bt-0.8.jar -m Mode target
+java -jar sit-bt-0.9.jar -m Mode target
 ```
 
 Example 1) Command to translate README _ ja. md from Japanese to English and to output to README. md
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en README_ja.md->README.md
+java -jar sit-bt-0.9.jar -m ja2en README_ja.md->README.md
 ```
 
 
 Example 2) Command to translate all files with adoc extension under docs directory from Japanese to English and output to docs/en directory
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en -p *.adoc docs->docs/en
+java -jar sit-bt-0.9.jar -m ja2en -p *.adoc docs->docs/en
 ```
 
 
