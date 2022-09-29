@@ -51,6 +51,25 @@ public class MainTests {
   }
 
   @Test
+  public void dirTest2() throws URISyntaxException, IOException {
+    Path inputDir =
+        Path.of(getClass().getResource("MainTests/dirTest2/test1.md").toURI()).getParent();
+    Path outputDir = inputDir.resolve("en");
+
+    FileUtils.deleteDirectory(outputDir.toFile());
+
+    String inOutPath = inputDir + "->" + outputDir;
+    main.execute(new String[] {"-m", "ja2en", inOutPath, "-p", "*.*"});
+
+    assertTrue(
+        outputDir.toFile().exists(),
+        "Expected output directory doesn't exist: " + outputDir.toAbsolutePath());
+
+    assertEquals("This will be translated.", Files.readString(outputDir.resolve("test1.md")));
+    assertEquals("= sample AsciiDoc file", Files.readString(outputDir.resolve("other/test2.adoc")));
+  }
+
+  @Test
   public void markdownFileTest() throws URISyntaxException, IOException {
     Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.md").toURI());
     Path outputFile = inputFile.getParent().resolve("file_en.md");
@@ -59,6 +78,19 @@ public class MainTests {
 
     Path expectedFile =
         Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.md").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
+
+  @Test
+  public void asciiDocFileTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.adoc").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en.adoc");
+
+    main.execute(new String[] {"-m", "ja2en", inputFile.toString() + "->" + outputFile.toString()});
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.adoc").toURI());
 
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }

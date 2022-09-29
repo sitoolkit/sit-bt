@@ -11,6 +11,7 @@ public class Paragraph {
 
   @Getter @Setter private boolean ignored = false;
   @Getter @Setter private String escapePrefix = "";
+  @Getter @Setter private int spaceCount = 0;
 
   public void append(String line) {
     if (text.length() > 0) {
