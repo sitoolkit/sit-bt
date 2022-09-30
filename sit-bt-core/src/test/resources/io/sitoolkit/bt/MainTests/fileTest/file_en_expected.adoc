@@ -1,0 +1,294 @@
+= sample AsciiDoc file
+
+== Paragraph
+
+== Basic writing style
+
+No special markup is required to describe the paragraph.
+It is only described continuously from one line to several lines.
+
+When starting a new paragraph, include at least one blank line.
+
+=== Line break
+
+A plus at the end of a line is considered a line break. +
+The ruby color is red. +
+Topaz is blue.
+
+[%hardbreaks]
+When you specify a hardbreaks for a paragraph, line breaks in the text.
+It is displayed as a line feed.
+The ruby color is red.
+Topaz is blue.
+
+=== Footnote
+
+NOTE: Footnote paragraphs provide additional information.
+You can use different types of footnotes depending on the label at the beginning of the paragraph.
+
+TIP: Describes a chip.
+
+IMPORTANT: Describes important matters.
+
+WARNING: Write a warning.
+
+CAUTION: Describes the caution.
+
+== Marker, Other
+
+Werewolf is allergic to #cinnamon#.
+
+Have the werewolves read [.small]#small type#?
+
+== Superscript, Subscript
+
+Sample text for ^superscript^
+
+~sample text for~ subscripts
+
+=== Curve quart, apostrophe
+
+"`double curve quote`"
+
+'`single-curve quote`'
+
+== Section Title
+
+Sample section title below
+
+== Level1 ==
+
+=== Level2 ===
+
+==== Level3 ====
+
+===== Level4 =====
+
+====== Level5 ======
+
+== Include File
+
+=== Filename specification
+
+You can include another file by specifying an include statement. +
+[] after the file name specifies the tag and number of lines of the included file, and +
+You can include only part of a file.
+
+include::file.txt[]
+
+== List
+
+=== Unordered list
+
+* Edgar Allen Poe
+* Sheri S. Tepper
+* Bill Bryson
+
+=== Nested Unordered List
+
+* Level 1
+** Level 2
+*** Level 3
+**** Level 4
+***** Level 5
+* Level 1
+
+=== Ordered List
+
+. レベル１
+.. レベル２
+... レベル３
+.... レベル４
+..... レベル５
+. レベル１
+
+=== Label
+
+Item 1::
+Definition of paragraph 1
+Item 2::
+Definition of paragraph (2)
+
+=== Q&A
+
+[qanda]
+What is Asciidoctor?::
+It is a Ruby implementation of AsciiDoc.
+What is the answer to the ultimate question about life, the universe and all things?::
+It's 42.
+
+== Link
+
+=== Normal Link
+
+http://asciidoctor.org - Automatically linked.
+
+http://asciidoctor.org[Asciidoctor]
+
+=== literal
+
+ Code snippets should have a single space at the beginning of the line.
+
+=== literal (block element)
+
+....
+error: エラーが発生しました
+....
+
+=== Titled block element with syntax highlighting
+
+[[app-listing]]
+[source,ruby]
+.app.rb
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+== Block
+
+=== Sidebar
+
+.History of. AsciiDoc
+****
+AsciiDoc was released by Stuart Rackham in November 2002.
+AsciiDoc is for creating specialized texts such as DocBook and LaTeX.
+It was designed to be able to write sentences with simpler grammar.
+****
+
+=== Block quote
+
+[quote, Abraham Lincoln, Address delivered at the dedication of the Cemetery at Gettysburg]
+____
+40 and 7 years ago, our ancestors brought a new country to this continent.
+____
+
+=== Output without conversion
+
+++++
+<p>
+Blocks enclosed in ` ` + ` ` are output directly to HMTL without any conversion.
+</p>
+
+<script src="http://gist.github.com/mojavelinux/5333524.js">
+</script>
+++++
+
+=== Open
+
+--
+Open blocks can be used for general purpose.
+--
+
+[source]
+--
+Puts "This is a source block!"
+--
+
+== Comment
+
+=== Line comment
+
+// single-line comment.
+
+=== Block Comment
+
+////
+Multi-line comment.
+
+This is a Delimited block.
+////
+
+== Table
+
+=== 2 x 3 with title and header
+
+.Table Title
+|===
+| Column Name1 | Column Name2 | Column Name3
+
+| Cell 11
+| Cell 12
+| Cell 13
+
+| Cell 21
+| Cell 22
+| Cell 23
+|===
+
+=== Title, 2x3 with header, cols specification
+
+.Table Title
+[cols="1,1,2", options="header"]
+|===
+| Name
+| Category
+| Description
+
+|Firefox
+| Browser
+| An open source browser.
+It is standards-based, high-performance, and highly portable.
+
+|Arquillian
+| Test
+| Innovative and highly scalable testing platform.
+Make it easier for developers to create actual automated tests.
+|===
+
+=== CSV Data Import
+
+[format="csv", options="header"]
+|===
+Artist, Track, Genre
+Baauer,Harlem Shake,Hip Hop
+The Lumineers,Ho Hey,Folk Rock
+|===
+
+== Markdown format
+
+It is limited to Asciidoctor and can be described in markdown form.
+
+=== Fence Code Block
+
+```ruby
+require 'sinatra'
+
+  get '/hi' do
+"Hello World!"
+end
+```
+
+=== Backquote
+
+> I hold it that a little rebellion now and then is a good thing,
+> and as necessary in the political world as storms in the physical.
+> -- Thomas Jefferson, Papers of Thomas Jefferson: Volume 11
+
+=== Block quote
+
+> > What's new?
+>
+> I've got Markdown in my AsciiDoc!
+>
+> > Like what?
+>
+> * Blockquotes
+> * Headings
+> * Fenced code blocks
+>
+> > Is there more?
+>
+> Yep. AsciiDoc and Markdown share a lot of common syntax already.
+
+=== Horizontal line
+
+---
+
+***
+
+
+

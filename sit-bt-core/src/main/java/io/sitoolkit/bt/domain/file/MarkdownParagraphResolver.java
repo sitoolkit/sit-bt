@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MarkdownParagraphResolver {
+public class MarkdownParagraphResolver implements ParagraphResolver {
 
-  private Pattern escapePrefixPattern = Pattern.compile("^##+");
+  private final Pattern escapePrefixPattern = Pattern.compile("^##+");
 
+  @Override
   public List<Paragraph> resolve(Path file) {
 
     List<String> lines = null;
@@ -62,12 +63,7 @@ public class MarkdownParagraphResolver {
     return paragraphs;
   }
 
-  private String findPrefix(String line) {
-    Matcher matcher = escapePrefixPattern.matcher(line);
-    matcher.find();
-    return matcher.group();
-  }
-
+  @Override
   public String correct(String translatedText, Paragraph paragraph) {
 
     String escapePrefix = paragraph.getEscapePrefix();
@@ -94,5 +90,11 @@ public class MarkdownParagraphResolver {
     correctText.append(" ");
     correctText.append(translatedText);
     return correctText.toString();
+  }
+
+  private String findPrefix(String line) {
+    Matcher matcher = escapePrefixPattern.matcher(line);
+    matcher.find();
+    return matcher.group();
   }
 }
