@@ -1,6 +1,8 @@
 package io.sitoolkit.bt.application;
 
+import io.sitoolkit.bt.domain.file.AsciiDocParagraphResolver;
 import io.sitoolkit.bt.domain.file.MarkdownParagraphResolver;
+import io.sitoolkit.bt.domain.file.ParagraphResolver;
 import io.sitoolkit.bt.domain.translation.TranslationSpec;
 import io.sitoolkit.bt.domain.translation.Translator;
 import java.io.IOException;
@@ -37,7 +39,9 @@ public class FileTranslationService {
       // String inputText = Files.readString(spec.getInputFile());
       // String outputText = translator.translate(spec.getMode(), inputText);
 
-      MarkdownParagraphResolver resolver = new MarkdownParagraphResolver();
+      // 翻訳対象のファイルの拡張子によって ParagraphResolver を使い分ける
+      ParagraphResolver resolver = createParagraphResolver(spec.getInputFile().toString());
+
       String outputText =
           resolver.resolve(spec.getInputFile()).stream()
               .map(
@@ -55,6 +59,19 @@ public class FileTranslationService {
 
     } catch (IOException e) {
       throw new UncheckedIOException(e);
+    }
+  }
+
+  private ParagraphResolver createParagraphResolver(String path) {
+    String fileType = path.substring(path.lastIndexOf("."));
+    switch (fileType) {
+      case ".md":
+        return new MarkdownParagraphResolver();
+      case ".adoc":
+        return new AsciiDocParagraphResolver();
+      default:
+        // TODO md, adoc形式以外を翻訳する汎用的なResolverを用意する
+        return new MarkdownParagraphResolver();
     }
   }
 }
