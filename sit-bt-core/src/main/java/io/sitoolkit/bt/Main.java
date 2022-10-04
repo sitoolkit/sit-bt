@@ -1,7 +1,7 @@
 package io.sitoolkit.bt;
 
 import io.sitoolkit.bt.application.FileTranslationService;
-import io.sitoolkit.bt.domain.file.MarkdownParagraphResolver;
+import io.sitoolkit.bt.domain.file.ParagraphResolverFactory;
 import io.sitoolkit.bt.domain.translation.MinhonTranslator;
 import io.sitoolkit.bt.domain.translation.TranslationSpecResolver;
 import io.sitoolkit.bt.domain.translation.Translator;
@@ -70,7 +70,7 @@ public class Main {
 
     Translator translator = new MinhonTranslator(new ApacheHttpWebClient(config), config);
     FileTranslationService service =
-        new FileTranslationService(translator, new MarkdownParagraphResolver());
+        new FileTranslationService(translator, new ParagraphResolverFactory());
 
     // TODO Exception Handling
     command.getInOutPaths().stream()

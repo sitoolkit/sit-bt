@@ -1,0 +1,23 @@
+= sample AsciiDoc file
+==DELIMITER==
+= = Paragraph
+==DELIMITER==
+= = Basic writing style
+==DELIMITER==
+No special markup is required to describe the paragraph.
+It is only described continuously from one line to several lines.
+==DELIMITER==
+When starting a new paragraph, include at least one blank line.
+==DELIMITER==
+
+
+
+
+
+
+
+
+
+----
+ここは無視されます
+----
