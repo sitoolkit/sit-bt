@@ -9,12 +9,7 @@
   },
   "java.format.enabled": false,
   "java.test.config": {
-    "vmArgs": [
-      "-Dio.sitoolkit.bt.logging.level=DEBUG"
-    ]
+    "vmArgs": ["-Dio.sitoolkit.bt.logging.level=DEBUG"]
   },
-  "editor.formatOnSave": true,
-  "java.completion.enabled": false,
-  "java.debug.settings.enableRunDebugCodeLens": false,
-  "java.test.editor.enableShortcuts": false
+  "editor.formatOnSave": true
 }
