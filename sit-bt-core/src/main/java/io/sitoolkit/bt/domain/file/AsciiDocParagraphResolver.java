@@ -6,12 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AsciiDocParagraphResolver implements ParagraphResolver {
 
-  private Pattern escapePrefixPattern = Pattern.compile("^\\.");
-  private Pattern consecutiveEqualsPrefixPattern =
+  private final Pattern escapePrefixPattern = Pattern.compile("^\\.");
+  private final Pattern consecutiveEqualsPrefixPattern =
       Pattern.compile("^(= ){2,6}(.*)", Pattern.DOTALL);
 
   @Override
@@ -48,6 +49,11 @@ public class AsciiDocParagraphResolver implements ParagraphResolver {
         continue;
       }
 
+      // . から始まる場合、翻訳時に . が除去されるため、翻訳前に退避する
+      if (line.startsWith(".")) {
+        paragraph.setEscapePrefix(findPrefix(line));
+      }
+
       paragraph.append(line);
 
       // 次の----までの範囲は翻訳しない
@@ -58,6 +64,12 @@ public class AsciiDocParagraphResolver implements ParagraphResolver {
     paragraphs.add(paragraph);
 
     return paragraphs;
+  }
+
+  private String findPrefix(String line) {
+    Matcher matcher = escapePrefixPattern.matcher(line);
+    matcher.find();
+    return matcher.group();
   }
 
   @Override
@@ -76,14 +88,14 @@ public class AsciiDocParagraphResolver implements ParagraphResolver {
       return originalText;
     }
 
-    if (escapePrefix.isEmpty()) {
-      return translatedText;
-    }
-
     // 翻訳APIはイコールを「 = 」と翻訳するため、
     // 「=」と後続の文字列の間にのみ半角スペースを挿入するように調整する
     if (consecutiveEqualsPrefixPattern.matcher(translatedText).matches()) {
-      translatedText = translatedText.replaceAll("( =|= )", "=");
+      translatedText = translatedText.replaceAll("= ", "=").replaceAll("(=*)([^=]*)", "$1 $2");
+    }
+
+    if (escapePrefix.isEmpty()) {
+      return translatedText;
     }
 
     StringBuilder correctText = new StringBuilder();

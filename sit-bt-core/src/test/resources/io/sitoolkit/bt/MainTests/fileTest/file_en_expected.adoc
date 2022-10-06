@@ -1,9 +1,12 @@
 = Asciidoc
 
-ここは本文です。
+
+This is the body text.
+
 
 ----
 コードブロックは翻訳されません。
 ----
 
-本文は翻訳されます。
+
+The text is translated.
