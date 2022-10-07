@@ -60,21 +60,21 @@ name=your_user_name
 #### Java コマンドで実行
 
 ```
-curl -o sit-bt-0.8.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core-0.8.jar
+curl -o sit-bt-core-0.9.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core/0.9/sit-bt-core-0.9.jar
 
-java -jar sit-bt-0.8.jar -m Mode target
+java -jar sit-bt-core-0.9.jar -m Mode target
 ```
 
 例 1) README_ja.md を日本語から英語に翻訳し README.md に出力するコマンド
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en README_ja.md->README.md
+java -jar sit-bt-core-0.9.jar -m ja2en README_ja.md:README.md
 ```
 
 例 2) docs ディレクトリ以下の拡張子が adoc である全ファイルを日本語から英語に翻訳し、docs/en ディレクトリに出力するコマンド
 
 ```
-java -jar sit-bt-0.8.jar -m ja2en -p *.adoc docs->docs/en
+java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc docs:docs/en
 ```
 
 #### Maven Plugin として実行

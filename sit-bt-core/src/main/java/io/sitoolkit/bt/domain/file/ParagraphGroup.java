@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 public class ParagraphGroup {
 
+  private static final String LINE_SEPARATER = "\n";
   private static final String DELIMITER_STRING = "==DELIMITER==";
-  private static final String DELIMITER =
-      System.lineSeparator() + DELIMITER_STRING + System.lineSeparator();
-  private static final String SPLITTER = DELIMITER_STRING + System.lineSeparator();
+  private static final String DELIMITER = LINE_SEPARATER + DELIMITER_STRING + LINE_SEPARATER;
+  private static final String SPLITTER = DELIMITER_STRING + LINE_SEPARATER;
 
   private List<Paragraph> group = new ArrayList<>();
 
