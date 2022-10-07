@@ -15,12 +15,10 @@ import lombok.NoArgsConstructor;
 public class TranslationSpecResolver {
 
   public static Stream<TranslationSpec> toSpecs(
-      String inOutPath, TranslationMode mode, String filePattern) {
+      String source, String target, TranslationMode mode, String filePattern) {
 
-    String[] inOutPathArr = inOutPath.split("->");
-
-    Path inPath = Path.of(inOutPathArr[0]);
-    Path outPath = Path.of(inOutPathArr[1]);
+    Path inPath = Path.of(source);
+    Path outPath = Path.of(target);
 
     // TODO Validation
 

@@ -41,7 +41,30 @@ public class Main {
           .hasArg()
           .build();
 
-  static Options options = new Options().addOption(modeOpt).addOption(filePatternOpt);
+  static Option sourceOpt =
+      Option.builder("s")
+          .argName("Source")
+          .desc("Input path")
+          .longOpt("source")
+          .required(true)
+          .hasArg()
+          .build();
+
+  static Option targetOpt =
+      Option.builder("t")
+          .argName("Target")
+          .desc("Output path")
+          .longOpt("target")
+          .required(true)
+          .hasArg()
+          .build();
+
+  static Options options =
+      new Options()
+          .addOption(modeOpt)
+          .addOption(filePatternOpt)
+          .addOption(sourceOpt)
+          .addOption(targetOpt);
 
   public static void main(String[] args) {
     System.exit(new Main().execute(args));
@@ -73,11 +96,8 @@ public class Main {
         new FileTranslationService(translator, new MarkdownParagraphResolver());
 
     // TODO Exception Handling
-    command.getInOutPaths().stream()
-        .flatMap(
-            inOutPath ->
-                TranslationSpecResolver.toSpecs(
-                    inOutPath, command.getMode(), command.getFilePattern()))
+    TranslationSpecResolver.toSpecs(
+            command.getSource(), command.getTarget(), command.getMode(), command.getFilePattern())
         .forEach(service::translate);
 
     return 0;
@@ -101,12 +121,9 @@ public class Main {
     CommandLine commandLine = parser.parse(options, args);
     Command command = new Command();
 
-    if (commandLine.getArgList().isEmpty()) {
-      return command;
-    }
-
     command.setMode(TranslationMode.parse(commandLine.getOptionValue(modeOpt.getOpt())));
-    command.setInOutPaths(commandLine.getArgList());
+    command.setSource(commandLine.getOptionValue(sourceOpt.getOpt()));
+    command.setTarget(commandLine.getOptionValue(targetOpt.getOpt()));
     command.setFilePattern(commandLine.getOptionValue(filePatternOpt.getOpt()));
 
     return command;
