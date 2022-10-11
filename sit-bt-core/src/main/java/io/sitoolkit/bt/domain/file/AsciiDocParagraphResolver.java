@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MarkdownParagraphResolver implements ParagraphResolver {
+public class AsciiDocParagraphResolver implements ParagraphResolver {
 
-  private Pattern escapePrefixPattern = Pattern.compile("^##+");
+  private final Pattern escapePrefixPattern = Pattern.compile("^\\.");
+  private final Pattern consecutiveEqualsPrefixPattern =
+      Pattern.compile("^(= ){2,6}(.*)", Pattern.DOTALL);
 
   @Override
   public List<Paragraph> resolve(Path file) {
@@ -29,7 +31,7 @@ public class MarkdownParagraphResolver implements ParagraphResolver {
 
     for (String line : lines) {
 
-      if (paragraph.isIgnored() && line.startsWith("```")) {
+      if (paragraph.isIgnored() && line.startsWith("----")) {
         paragraph.append(line);
         paragraphs.add(paragraph);
         paragraph = new Paragraph();
@@ -47,15 +49,16 @@ public class MarkdownParagraphResolver implements ParagraphResolver {
         continue;
       }
 
+      // . から始まる場合、翻訳時に . が除去されるため、翻訳前に退避する
+      if (line.startsWith(".")) {
+        paragraph.setEscapePrefix(findPrefix(line));
+      }
+
       paragraph.append(line);
 
-      // 次の```までの範囲は翻訳しない
-      if (line.startsWith("```")) {
+      // 次の----までの範囲は翻訳しない
+      if (line.startsWith("----")) {
         paragraph.setIgnored(true);
-
-      } else if (line.startsWith("##")) {
-        // ##から始まる場合、翻訳時に##+が除去されるため、翻訳前に退避する
-        paragraph.setEscapePrefix(findPrefix(line));
       }
     }
     paragraphs.add(paragraph);
@@ -85,25 +88,18 @@ public class MarkdownParagraphResolver implements ParagraphResolver {
       return originalText;
     }
 
+    // 翻訳APIはイコールを「 = 」と翻訳するため、
+    // 「=」と後続の文字列の間にのみ半角スペースを挿入するように調整する
+    if (consecutiveEqualsPrefixPattern.matcher(translatedText).matches()) {
+      translatedText = translatedText.replaceAll("= ", "=").replaceAll("(=*)([^=]*)", "$1 $2");
+    }
+
     if (escapePrefix.isEmpty()) {
       return translatedText;
     }
 
-    // 待避接頭辞が設定済の場合は、翻訳APIにて発生する下記2つの事象に対して補正をかける
-    // ※「#」を除いて翻訳した場合の翻訳結果が見出しとして適切な文章にならないため、
-    // 　「#」がついた状態で翻訳を行い、翻訳結果の「#」の有無に応じて補正処理を行う
-    // 　・先頭から「#」が2つ以上続き、その後の文字がアルファベットの場合に「#」が除去される
-    // 　・先頭から「#」が2つ以上続き、その後の文字がアルファベット以外の場合に「#」の後ろの半角スペースが除去される
-    if (translatedText.startsWith("##")) {
-      StringBuilder correctPrefix = new StringBuilder();
-      correctPrefix.append(escapePrefix);
-      correctPrefix.append(" ");
-      return translatedText.replace(escapePrefix, correctPrefix.toString());
-    }
-
     StringBuilder correctText = new StringBuilder();
     correctText.append(escapePrefix);
-    correctText.append(" ");
     correctText.append(translatedText);
     return correctText.toString();
   }

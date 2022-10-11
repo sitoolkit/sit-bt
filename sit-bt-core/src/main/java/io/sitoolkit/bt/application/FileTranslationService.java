@@ -1,8 +1,9 @@
 package io.sitoolkit.bt.application;
 
-import io.sitoolkit.bt.domain.file.MarkdownParagraphResolver;
 import io.sitoolkit.bt.domain.file.Paragraph;
 import io.sitoolkit.bt.domain.file.ParagraphGroup;
+import io.sitoolkit.bt.domain.file.ParagraphResolver;
+import io.sitoolkit.bt.domain.file.ParagraphResolverFactory;
 import io.sitoolkit.bt.domain.translation.TranslationSpec;
 import io.sitoolkit.bt.domain.translation.Translator;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileTranslationService {
 
   private final Translator translator;
-  private final MarkdownParagraphResolver resolver;
+  private final ParagraphResolverFactory factory;
 
   public void translate(TranslationSpec spec) {
 
@@ -49,6 +50,7 @@ public class FileTranslationService {
   }
 
   String translate(Path file, TranslationMode mode) {
+    ParagraphResolver resolver = factory.createResolver(file);
     List<Paragraph> paragraphs = resolver.resolve(file);
 
     if (log.isDebugEnabled()) {
