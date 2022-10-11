@@ -7,7 +7,6 @@ import io.sitoolkit.bt.domain.file.ParagraphResolverFactory;
 import io.sitoolkit.bt.domain.translation.TranslationSpec;
 import io.sitoolkit.bt.domain.translation.Translator;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
-import io.sitoolkit.bt.infrastructure.util.FileTypeUtils;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -51,7 +50,7 @@ public class FileTranslationService {
   }
 
   String translate(Path file, TranslationMode mode) {
-    ParagraphResolver resolver = factory.createResolver(FileTypeUtils.path2fileType(file));
+    ParagraphResolver resolver = factory.createResolver(file);
     List<Paragraph> paragraphs = resolver.resolve(file);
 
     if (log.isDebugEnabled()) {
