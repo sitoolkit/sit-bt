@@ -18,9 +18,6 @@ public class MainMojo extends AbstractMojo {
   @Parameter(property = "bt.mode")
   private String mode;
 
-  @Parameter(property = "bt.configDir")
-  private String configDir;
-
   @Parameter(property = "bt.filePattern")
   private String filePattern;
 
@@ -33,7 +30,6 @@ public class MainMojo extends AbstractMojo {
 
     buildArgs(args, "--mode", mode);
     buildArgs(args, "--file-pattern", filePattern);
-    buildArgs(args, "--config-dir", configDir);
 
     if (target != null) {
       args.add(String.join(" ", target.split(",")));
