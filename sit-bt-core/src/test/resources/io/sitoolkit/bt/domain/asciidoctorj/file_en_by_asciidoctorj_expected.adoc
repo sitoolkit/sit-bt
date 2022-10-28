@@ -1,0 +1,168 @@
+= Sample AsciiDoc File
+
+== Basic Writing
+
+No special markup is required to write a paragraph.
+It is written continuously from one line to several lines.
+
+When starting a new paragraph, include at least one blank line.
+
+=== Line feed
+
+A plus at the end of a line is considered a line break. +
+Ruby is red. +
+Topaz is blue.
+
+[%hardbreaks]
+If you specify a hardbreaks for a paragraph, the line breaks on the text. +
+It will be displayed as a line feed.
+
+=== Footnote
+
+NOTE: Footnote paragraphs are for supplemental information.
+You can use different types of footnotes depending on the label at the beginning of the paragraph.
+
+TIP: Describes the chips.
+
+IMPORTANT: Write important points.
+
+WARNING: Write a warning.
+
+CAUTION: Write a note.
+
+== List
+
+=== Unordered list
+
+.Title of the unordered list
+* Edgar Allen Poe
+* Sheri S. Tepper
+* Bill Bryson
+
+=== Nesting Unordered Lists
+
+.Unordered List Nesting Title
+* Level 1
+** Level 2
+*** Level 3
+**** Level 4
+***** Level 5
+* Level 1
+
+=== Ordered list
+
+.Title of the ordered list
+. Level 1
+.. Level 2
+... Level 3
+.... Level 4
+..... Level 5
+. Level 1
+
+== Link
+
+=== Literal
+
+ Code snippets must have a space at the beginning of the line.
+
+=== Literal (block element)
+
+ Error - An error occurred
+
+=== Titled block element with syntax highlighting
+
+[[app-listing]]
+[source,ruby]
+.app.rb
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+== Block
+
+=== Sidebar
+
+.History of AsciiDoc
+****
+AsciiDoc was released by Stuart Rackham in November 2002.
+AsciiDoc is for creating technical writing, such as DocBook and LaTeX.
+It was designed so that you could write professionally with a simpler grammar.
+
+****
+
+=== Output without conversion
+
+++++
+<p>
+``+``で囲まれたブロックは、変換処理を行わずにそのままHMTLに出力されます。
+</p>
+
+<script src="http://gist.github.com/mojavelinux/5333524.js">
+</script>
+++++
+
+=== Open
+
+--
+オープンブロックは汎用的に使えます。
+--
+
+[source]
+----
+puts "これはソースブロック！"
+----
+
+== Table
+
+=== Titled 2x3
+
+.Table Title
+|===
+|Column name 1|Column name 2|Column name 3
+|Cell 11|Cell 12|Cell 13
+|Cell 21|Cell 22|Cell 23
+|===
+
+=== 2x3 with title and header, cols specified
+
+.Table Title
+[options="header", cols="1,1,2"]
+|===
+|Name|Category|Description
+|Firefox|Browser|An open source browser.
+Standards-based, high-performance, and highly portable.
+|Arquillian|Testing|An innovative and highly scalable testing platform.
+Make it easy for developers to create actual automated tests.
+|===
+
+=== CSV Data Import
+
+[options="header", format="csv"]
+|===
+Artist,Truck,Genre
+Baauer,Harlem Shake,Hip Hop
+The Lumineers,Ho Hey,Folk Rock
+|===
+
+== Markdown form
+
+Description in markdown format is available only for Asciidoctor.
+
+=== Fence code block
+
+[source,ruby]
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+=== Horizon
+
+---
