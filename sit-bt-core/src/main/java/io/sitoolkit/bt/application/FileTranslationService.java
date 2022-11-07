@@ -1,5 +1,7 @@
 package io.sitoolkit.bt.application;
 
+import io.sitoolkit.bt.domain.asciidoctorj.AdocConverter;
+import io.sitoolkit.bt.domain.file.AsciiDocParagraphResolver;
 import io.sitoolkit.bt.domain.file.Paragraph;
 import io.sitoolkit.bt.domain.file.ParagraphGroup;
 import io.sitoolkit.bt.domain.file.ParagraphResolver;
@@ -13,15 +15,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.OptionsBuilder;
 
 @Slf4j
-@RequiredArgsConstructor
 public class FileTranslationService {
 
   private final Translator translator;
   private final ParagraphResolverFactory factory;
+  private final Asciidoctor asciidoctor = Asciidoctor.Factory.create();
+
+  public FileTranslationService(Translator translator, ParagraphResolverFactory factory) {
+    this.translator = translator;
+    this.factory = factory;
+    asciidoctor.javaConverterRegistry().register(AdocConverter.class);
+  }
 
   public void translate(TranslationSpec spec) {
 
@@ -61,7 +70,18 @@ public class FileTranslationService {
 
     List<ParagraphGroup> groups = ParagraphGroup.grouping(paragraphs);
 
-    groups.stream().forEach(group -> group.reduce(translator.translate(mode, group.getAllText())));
+    if (resolver.getClass().equals(AsciiDocParagraphResolver.class)) {
+      groups.stream()
+          .forEach(
+              group ->
+                  group.reduce(
+                      asciidoctor.convert(
+                          group.getAllTextWithoutDelimiter(),
+                          OptionsBuilder.options().backend("adoc"))));
+    } else {
+      groups.stream()
+          .forEach(group -> group.reduce(translator.translate(mode, group.getAllText())));
+    }
 
     return paragraphs.stream()
         .map(resolver::correct)

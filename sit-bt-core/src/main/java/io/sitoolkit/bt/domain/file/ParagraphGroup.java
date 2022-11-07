@@ -25,6 +25,12 @@ public class ParagraphGroup {
     return group.stream().map(Paragraph::getText).collect(Collectors.joining(DELIMITER));
   }
 
+  public String getAllTextWithoutDelimiter() {
+    return group.stream()
+        .map(Paragraph::getText)
+        .collect(Collectors.joining(LINE_SEPARATER + LINE_SEPARATER));
+  }
+
   public void reduce(String text) {
     int i = 0;
     for (String paragraphText : text.split(SPLITTER)) {
