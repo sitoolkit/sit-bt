@@ -1,15 +1,10 @@
 package io.sitoolkit.bt;
 
 import io.sitoolkit.bt.application.FileTranslationService;
-import io.sitoolkit.bt.domain.file.ParagraphResolverFactory;
-import io.sitoolkit.bt.domain.translation.MinhonTranslator;
 import io.sitoolkit.bt.domain.translation.TranslationSpecResolver;
-import io.sitoolkit.bt.domain.translation.Translator;
 import io.sitoolkit.bt.infrastructure.command.Command;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
-import io.sitoolkit.bt.infrastructure.config.AtConfig;
 import io.sitoolkit.bt.infrastructure.util.ResourceUtils;
-import io.sitoolkit.bt.infrastructure.web.ApacheHttpWebClient;
 import java.nio.file.Path;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
@@ -66,11 +61,7 @@ public class Main {
   }
 
   public int execute(Command command) {
-    AtConfig config = AtConfig.load();
-
-    Translator translator = new MinhonTranslator(new ApacheHttpWebClient(config), config);
-    FileTranslationService service =
-        new FileTranslationService(translator, new ParagraphResolverFactory());
+    FileTranslationService service = new FileTranslationService();
 
     // TODO Exception Handling
     command.getInOutPaths().stream()
