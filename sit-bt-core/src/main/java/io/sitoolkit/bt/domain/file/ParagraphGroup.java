@@ -3,14 +3,16 @@ package io.sitoolkit.bt.domain.file;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ParagraphGroup {
-
   private static final String LINE_SEPARATER = "\n";
   private static final String DELIMITER_STRING = "==DELIMITER==";
   private static final String DELIMITER = LINE_SEPARATER + DELIMITER_STRING + LINE_SEPARATER;
   private static final String SPLITTER = DELIMITER_STRING + LINE_SEPARATER;
 
+  private boolean useDelimiter;
   private List<Paragraph> group = new ArrayList<>();
 
   private void add(Paragraph paragraph) {
@@ -21,8 +23,16 @@ public class ParagraphGroup {
     return group.isEmpty();
   }
 
+  public ParagraphGroup(boolean useDelimiter) {
+    this.useDelimiter = useDelimiter;
+  }
+
   public String getAllText() {
-    return group.stream().map(Paragraph::getText).collect(Collectors.joining(DELIMITER));
+    String eos = DELIMITER;
+    if (!useDelimiter) {
+      eos = LINE_SEPARATER + LINE_SEPARATER;
+    }
+    return group.stream().map(Paragraph::getText).collect(Collectors.joining(eos));
   }
 
   public void reduce(String text) {
@@ -32,9 +42,9 @@ public class ParagraphGroup {
     }
   }
 
-  public static List<ParagraphGroup> grouping(List<Paragraph> paragraphs) {
+  public List<ParagraphGroup> grouping(List<Paragraph> paragraphs) {
     List<ParagraphGroup> groups = new ArrayList<>();
-    ParagraphGroup group = new ParagraphGroup();
+    ParagraphGroup group = new ParagraphGroup(useDelimiter);
 
     int length = 0;
     for (Paragraph paragraph : paragraphs) {
@@ -48,7 +58,7 @@ public class ParagraphGroup {
 
       if (length > 1000) {
         groups.add(group);
-        group = new ParagraphGroup();
+        group = new ParagraphGroup(useDelimiter);
       }
     }
 

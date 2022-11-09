@@ -1,9 +1,9 @@
 package io.sitoolkit.bt.application;
 
+import io.sitoolkit.bt.domain.assemblies.TranslationAssembliesFactory;
 import io.sitoolkit.bt.domain.file.Paragraph;
 import io.sitoolkit.bt.domain.file.ParagraphGroup;
 import io.sitoolkit.bt.domain.file.ParagraphResolver;
-import io.sitoolkit.bt.domain.file.ParagraphResolverFactory;
 import io.sitoolkit.bt.domain.translation.TranslationSpec;
 import io.sitoolkit.bt.domain.translation.Translator;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
@@ -13,15 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
 public class FileTranslationService {
-
-  private final Translator translator;
-  private final ParagraphResolverFactory factory;
 
   public void translate(TranslationSpec spec) {
 
@@ -50,7 +45,13 @@ public class FileTranslationService {
   }
 
   String translate(Path file, TranslationMode mode) {
-    ParagraphResolver resolver = factory.createResolver(file);
+    // 翻訳対象のファイルの拡張子から利用する Resolver, ParagraphGroup, translator を判別して取得する
+    TranslationAssembliesFactory factory =
+        TranslationAssembliesFactory.createTranslationAssemblies(file);
+    ParagraphResolver resolver = factory.getParagraphResolver();
+    ParagraphGroup paragraphGroup = factory.getParagraphGroup();
+    Translator translator = factory.getTranslator();
+
     List<Paragraph> paragraphs = resolver.resolve(file);
 
     if (log.isDebugEnabled()) {
@@ -59,8 +60,7 @@ public class FileTranslationService {
       }
     }
 
-    List<ParagraphGroup> groups = ParagraphGroup.grouping(paragraphs);
-
+    List<ParagraphGroup> groups = paragraphGroup.grouping(paragraphs);
     groups.stream().forEach(group -> group.reduce(translator.translate(mode, group.getAllText())));
 
     return paragraphs.stream()
