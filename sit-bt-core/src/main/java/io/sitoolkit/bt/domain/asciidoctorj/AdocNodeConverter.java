@@ -312,6 +312,7 @@ public class AdocNodeConverter {
   }
 
   public String translate(String text) {
+    // TODO translationModeを指定可能にする.
     return translator.translate(TranslationMode.JA2EN, text);
   }
 }
