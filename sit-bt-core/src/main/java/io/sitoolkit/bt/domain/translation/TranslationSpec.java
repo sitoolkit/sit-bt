@@ -1,5 +1,6 @@
 package io.sitoolkit.bt.domain.translation;
 
+import io.sitoolkit.bt.infrastructure.command.TranslationEngine;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
 import java.nio.file.Path;
 import lombok.AllArgsConstructor;
@@ -16,4 +17,6 @@ public class TranslationSpec {
   private TranslationMode mode;
 
   private boolean target;
+
+  private TranslationEngine engine;
 }

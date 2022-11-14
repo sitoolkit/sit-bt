@@ -14,10 +14,13 @@ import org.asciidoctor.converter.StringConverter;
 @ConverterFor("adoc")
 public class AdocConverter extends StringConverter {
 
-  private final AdocNodeConverter adocNodeConverter = new AdocNodeConverter();
+  private final AdocNodeConverter adocNodeConverter;
 
   public AdocConverter(String backend, Map<String, Object> opts) {
     super(backend, opts);
+    // DocumentNodeから翻訳エンジンの名称を取得し、adocNodeConverterを生成する.
+    Document document = (Document) opts.get("document");
+    this.adocNodeConverter = new AdocNodeConverter(String.valueOf(document.getAttribute("engine")));
   }
 
   @Override

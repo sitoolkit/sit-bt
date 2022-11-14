@@ -11,4 +11,6 @@ public class Command {
   private List<String> inOutPaths;
 
   private String filePattern;
+
+  private TranslationEngine engine;
 }
