@@ -14,6 +14,8 @@ public class BasicTranslatorFactory {
       new MinhonTranslator(new ApacheHttpWebClient(config), config);
   private static final GeofluentTranslator geofluentTranslator =
       new GeofluentTranslator(new ApacheHttpWebClient(config), config);
+  private static final AwsTranslator awsTranslator = new AwsTranslator();
+  private static final AzureTranslator azureTranslator = new AzureTranslator();
 
   public static Translator createTranslator(TranslationEngine engine) {
     return createTranslator(String.valueOf(engine));
@@ -25,6 +27,10 @@ public class BasicTranslatorFactory {
         return minhonTranslator;
       case "GEOFLUENT":
         return geofluentTranslator;
+      case "AWS":
+        return awsTranslator;
+      case "AZURE":
+        return azureTranslator;
       default:
         return minhonTranslator;
     }
