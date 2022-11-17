@@ -18,7 +18,7 @@ public class TranslationSpecResolver {
   public static Stream<TranslationSpec> toSpecs(
       String inOutPath, TranslationMode mode, String filePattern, TranslationEngine engine) {
 
-    String[] inOutPathArr = inOutPath.split("->");
+    String[] inOutPathArr = inOutPath.split(":");
 
     Path inPath = Path.of(inOutPathArr[0]);
     Path outPath = Path.of(inOutPathArr[1]);
