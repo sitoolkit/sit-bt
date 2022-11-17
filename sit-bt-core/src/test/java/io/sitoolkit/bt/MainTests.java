@@ -68,45 +68,13 @@ public class MainTests {
     Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.adoc").toURI());
     Path outputFile = inputFile.getParent().resolve("file_en.adoc");
 
-    main.execute(new String[] {"-m", "ja2en", inputFile.toString() + ":" + outputFile.toString()});
+    main.execute(
+        new String[] {
+          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString() + "-e" + "minhon"
+        });
 
     Path expectedFile =
         Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.adoc").toURI());
-
-    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
-  }
-
-  @Test
-  public void markdownFileGeofluentTest() throws URISyntaxException, IOException {
-    Path inputFile =
-        Path.of(getClass().getResource("MainTests/fileTest/file_geofluent.md").toURI());
-    Path outputFile = inputFile.getParent().resolve("file_en_geofluent.md");
-
-    main.execute(
-        new String[] {
-          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "geofluent"
-        });
-
-    Path expectedFile =
-        Path.of(getClass().getResource("MainTests/fileTest/file_en_geofluent_expected.md").toURI());
-
-    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
-  }
-
-  @Test
-  public void asciiDocFileGeofluentTest() throws URISyntaxException, IOException {
-    Path inputFile =
-        Path.of(getClass().getResource("MainTests/fileTest/file_geofluent.adoc").toURI());
-    Path outputFile = inputFile.getParent().resolve("file_en_geofluent.adoc");
-
-    main.execute(
-        new String[] {
-          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "geofluent"
-        });
-
-    Path expectedFile =
-        Path.of(
-            getClass().getResource("MainTests/fileTest/file_en_geofluent_expected.adoc").toURI());
 
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
