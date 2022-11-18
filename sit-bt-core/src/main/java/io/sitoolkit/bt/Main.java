@@ -3,6 +3,7 @@ package io.sitoolkit.bt;
 import io.sitoolkit.bt.application.FileTranslationService;
 import io.sitoolkit.bt.domain.translation.TranslationSpecResolver;
 import io.sitoolkit.bt.infrastructure.command.Command;
+import io.sitoolkit.bt.infrastructure.command.TranslationEngine;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
 import io.sitoolkit.bt.infrastructure.util.ResourceUtils;
 import java.nio.file.Path;
@@ -14,6 +15,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class Main {
@@ -36,7 +38,17 @@ public class Main {
           .hasArg()
           .build();
 
-  static Options options = new Options().addOption(modeOpt).addOption(filePatternOpt);
+  static Option engineOpt =
+      Option.builder("e")
+          .argName("Engine")
+          .desc("Translation engine (minhon)")
+          .longOpt("engine")
+          .required(false)
+          .hasArg()
+          .build();
+
+  static Options options =
+      new Options().addOption(modeOpt).addOption(filePatternOpt).addOption(engineOpt);
 
   public static void main(String[] args) {
     System.exit(new Main().execute(args));
@@ -68,7 +80,7 @@ public class Main {
         .flatMap(
             inOutPath ->
                 TranslationSpecResolver.toSpecs(
-                    inOutPath, command.getMode(), command.getFilePattern()))
+                    inOutPath, command.getMode(), command.getFilePattern(), command.getEngine()))
         .forEach(service::translate);
 
     return 0;
@@ -99,7 +111,10 @@ public class Main {
     command.setMode(TranslationMode.parse(commandLine.getOptionValue(modeOpt.getOpt())));
     command.setInOutPaths(commandLine.getArgList());
     command.setFilePattern(commandLine.getOptionValue(filePatternOpt.getOpt()));
-
+    if (engineOpt.getOpt() != null
+        && StringUtils.isNotEmpty(commandLine.getOptionValue(engineOpt.getOpt()))) {
+      command.setEngine(TranslationEngine.parse(commandLine.getOptionValue(engineOpt.getOpt())));
+    }
     return command;
   }
 }

@@ -1,0 +1,29 @@
+package io.sitoolkit.bt.domain.translation;
+
+import io.sitoolkit.bt.infrastructure.command.TranslationEngine;
+import io.sitoolkit.bt.infrastructure.config.AtConfig;
+import io.sitoolkit.bt.infrastructure.web.ApacheHttpWebClient;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class BasicTranslatorFactory {
+
+  private static final AtConfig config = AtConfig.load();
+  private static final MinhonTranslator minhonTranslator =
+      new MinhonTranslator(new ApacheHttpWebClient(config), config);
+
+  public static Translator createTranslator(TranslationEngine engine) {
+    return createTranslator(String.valueOf(engine));
+  }
+
+  public static Translator createTranslator(String engineName) {
+    // TODO 翻訳エンジンを追加する
+    switch (engineName.toUpperCase()) {
+      case "MINHON":
+        return minhonTranslator;
+      default:
+        return minhonTranslator;
+    }
+  }
+}

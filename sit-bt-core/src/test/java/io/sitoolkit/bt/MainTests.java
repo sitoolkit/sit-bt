@@ -68,7 +68,10 @@ public class MainTests {
     Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.adoc").toURI());
     Path outputFile = inputFile.getParent().resolve("file_en.adoc");
 
-    main.execute(new String[] {"-m", "ja2en", inputFile.toString() + ":" + outputFile.toString()});
+    main.execute(
+        new String[] {
+          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString() + "-e" + "minhon"
+        });
 
     Path expectedFile =
         Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.adoc").toURI());

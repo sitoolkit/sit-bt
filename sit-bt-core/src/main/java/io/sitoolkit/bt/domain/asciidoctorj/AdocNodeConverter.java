@@ -1,10 +1,8 @@
 package io.sitoolkit.bt.domain.asciidoctorj;
 
-import io.sitoolkit.bt.domain.translation.MinhonTranslator;
+import io.sitoolkit.bt.domain.translation.BasicTranslatorFactory;
 import io.sitoolkit.bt.domain.translation.Translator;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
-import io.sitoolkit.bt.infrastructure.config.AtConfig;
-import io.sitoolkit.bt.infrastructure.web.ApacheHttpWebClient;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -30,9 +28,11 @@ public class AdocNodeConverter {
   private static final String ATTR_COLS = "cols";
   private static final String ATTR_FORMAT = "format";
 
-  private final AtConfig config = AtConfig.load();
-  private final Translator translator =
-      new MinhonTranslator(new ApacheHttpWebClient(config), config);
+  private final Translator translator;
+
+  public AdocNodeConverter(String engineName) {
+    this.translator = BasicTranslatorFactory.createTranslator(engineName);
+  }
 
   public String convertDocumentNode(Document document) {
     StringBuilder result = new StringBuilder();
@@ -312,7 +312,6 @@ public class AdocNodeConverter {
   }
 
   public String translate(String text) {
-    // TODO translationMode、および、翻訳エンジンを指定可能にする.
     return translator.translate(TranslationMode.JA2EN, text);
   }
 }

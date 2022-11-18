@@ -5,8 +5,14 @@ import io.sitoolkit.bt.domain.file.ParagraphGroup;
 import io.sitoolkit.bt.domain.file.ParagraphResolver;
 import io.sitoolkit.bt.domain.translation.AdocTranslator;
 import io.sitoolkit.bt.domain.translation.Translator;
+import io.sitoolkit.bt.infrastructure.command.TranslationEngine;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class AdocTranslationAsbFactory extends TranslationAssembliesFactory {
+
+  private final TranslationEngine engine;
+
   @Override
   public ParagraphResolver getParagraphResolver() {
     return new AsciiDocParagraphResolver();
@@ -19,6 +25,6 @@ public class AdocTranslationAsbFactory extends TranslationAssembliesFactory {
 
   @Override
   public Translator getTranslator() {
-    return new AdocTranslator();
+    return new AdocTranslator(this.engine);
   }
 }

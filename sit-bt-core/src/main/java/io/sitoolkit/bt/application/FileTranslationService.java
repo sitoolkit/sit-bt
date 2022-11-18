@@ -6,6 +6,7 @@ import io.sitoolkit.bt.domain.file.ParagraphGroup;
 import io.sitoolkit.bt.domain.file.ParagraphResolver;
 import io.sitoolkit.bt.domain.translation.TranslationSpec;
 import io.sitoolkit.bt.domain.translation.Translator;
+import io.sitoolkit.bt.infrastructure.command.TranslationEngine;
 import io.sitoolkit.bt.infrastructure.command.TranslationMode;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -35,7 +36,11 @@ public class FileTranslationService {
         return;
       }
 
-      String outputText = translate(spec.getInputFile(), spec.getMode());
+      if (spec.getEngine() == null) {
+        spec.setEngine(TranslationEngine.MINHON);
+      }
+
+      String outputText = translate(spec.getInputFile(), spec.getMode(), spec.getEngine());
 
       Files.writeString(spec.getOutputFile(), outputText);
 
@@ -44,10 +49,11 @@ public class FileTranslationService {
     }
   }
 
-  String translate(Path file, TranslationMode mode) {
-    // 翻訳対象のファイルの拡張子から利用する Resolver, ParagraphGroup, translator を判別して取得する
+  String translate(Path file, TranslationMode mode, TranslationEngine engine) {
+    // 翻訳対象の ファイルの拡張子 と ユーザが指定した翻訳エンジン から、
+    // 利用する Resolver, ParagraphGroup, translator を判別して取得する
     TranslationAssembliesFactory factory =
-        TranslationAssembliesFactory.createTranslationAssemblies(file);
+        TranslationAssembliesFactory.createTranslationAssemblies(file, engine);
     ParagraphResolver resolver = factory.getParagraphResolver();
     ParagraphGroup paragraphGroup = factory.getParagraphGroup();
     Translator translator = factory.getTranslator();
