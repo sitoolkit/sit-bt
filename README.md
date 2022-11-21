@@ -27,7 +27,9 @@ Run the Batch Translator as a Java command or as a Maven Plugin.
 
 #### Creating an API Key
 
-The Batch Translator uses "Minna no Hon' yaku @ TexTra ®" as its translation engine. To use the translation function, create an account at the following site.
+The Batch Translator uses "Minna no Hon' yaku @ TexTra ®" and "Amazon Translate" as translation engines. To use the translation function, create an account on one of the following sites.
+
+##### When using "Minna no Hon' yaku @ TexTra ®"
 
 https://mt-auto-minhon-mlt.ucri.jgn-x.jp/
 
@@ -58,6 +60,24 @@ api_key=your_api_key
 api_secret=your_api_secret
 name=your_user_name
 ```
+
+
+
+##### When using "Amazon Translate"
+
+https://portal.aws.amazon.com/billing/signup#/start
+
+After creating an account, refer to the [User Guide](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-files.html) and save aws_access_key_id and aws_secret_access_key in the credentials file.
+
+Create a credentials file under the .aws folder in your home directory.
+
+Ex. ~/.aws/credentials
+```properties
+[default]
+aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
+
 
 
 #### Run with Java commands
