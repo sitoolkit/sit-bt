@@ -78,4 +78,36 @@ public class MainTests {
 
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
+
+  @Test
+  public void markdownFileAwsTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_aws.md").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_aws.md");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "aws"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_aws_expected.md").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
+
+  @Test
+  public void asciiDocFileAwsTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_aws.adoc").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_aws.adoc");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "aws"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_aws_expected.adoc").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
 }

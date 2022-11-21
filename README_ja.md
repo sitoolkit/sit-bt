@@ -27,7 +27,9 @@ Batch Translator は Java コマンド、または Maven Plugin として実行�
 
 #### API Key の作成
 
-Batch Translator は翻訳エンジンに「みんなの自動翻訳＠TexTra®」を使用しています。翻訳機能を使用するには以下のサイトでアカウントを作成してください。
+Batch Translator は翻訳エンジンに「みんなの自動翻訳＠TexTra®」「Amazon Translate」を使用しています。翻訳機能を使用するには以下のいずれかのサイトでアカウントを作成してください。
+
+##### みんなの自動翻訳＠TexTra® を使用する場合
 
 https://mt-auto-minhon-mlt.ucri.jgn-x.jp/
 
@@ -55,6 +57,21 @@ nano ~/.sitoolkit/sit-bt.properties
 api_key=your_api_key
 api_secret=your_api_secret
 name=your_user_name
+```
+
+##### Amazon Translate を使用する場合
+
+https://portal.aws.amazon.com/billing/signup#/start
+
+アカウントを作成したら[ユーザガイド](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-files.html)を参考に、aws_access_key_id と aws_secret_access_key を credentials ファイルに保存します。
+
+credentials ファイルは、ホームディレクトリ の .awsフォルダ の配下に作成してください。
+
+Ex. ~/.aws/credentials
+```properties
+[default]
+aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
 
 #### Java コマンドで実行
