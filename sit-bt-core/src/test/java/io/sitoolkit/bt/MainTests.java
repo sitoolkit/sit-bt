@@ -110,4 +110,20 @@ public class MainTests {
 
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
+
+  @Test
+  public void html2htmlTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.html").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_aws.html");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "aws"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_aws_expected.html").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
 }
