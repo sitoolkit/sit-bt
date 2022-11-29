@@ -27,7 +27,12 @@ Batch Translator は Java コマンド、または Maven Plugin として実行�
 
 #### API Key の作成
 
-Batch Translator は翻訳エンジンに「みんなの自動翻訳＠TexTra®」「Amazon Translate」を使用しています。翻訳機能を使用するには以下のいずれかのサイトでアカウントを作成してください。
+Batch Translator は以下の翻訳エンジンを使用しています。
+* みんなの自動翻訳＠TexTra®
+* Amazon Translate
+* Azure翻訳
+
+翻訳機能を使用するには以下のいずれかのサイトでアカウントを作成してください。
 
 ##### みんなの自動翻訳＠TexTra® を使用する場合
 
@@ -73,6 +78,10 @@ Ex. ~/.aws/credentials
 aws_access_key_id=AKIAIOSFODNN7EXAMPLE
 aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
+
+##### Azure翻訳 を使用する場合
+
+加筆中
 
 #### Java コマンドで実行
 
