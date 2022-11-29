@@ -111,6 +111,7 @@ public class MainTests {
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
 
+  @Test
   public void markdownFileAzureTest() throws URISyntaxException, IOException {
     Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_azure.md").toURI());
     Path outputFile = inputFile.getParent().resolve("file_en_azure.md");
