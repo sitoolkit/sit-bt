@@ -41,7 +41,7 @@ public class Main {
   static Option engineOpt =
       Option.builder("e")
           .argName("Engine")
-          .desc("Translation engine (minhon)")
+          .desc("Translation engine (minhon, aws, azure)")
           .longOpt("engine")
           .required(false)
           .hasArg()
