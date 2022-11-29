@@ -27,7 +27,12 @@ Run the Batch Translator as a Java command or as a Maven Plugin.
 
 #### Creating an API Key
 
-The Batch Translator uses "Minna no Hon' yaku @ TexTra ®" and "Amazon Translate" as translation engines. To use the translation function, create an account on one of the following sites.
+The Batch Translator uses the following translation engines.
+* Minna no Hon yaku @ TexTra ®
+* Amazon Translate
+* Azure Translate
+
+ To use the translation function, create an account on one of the following sites.
 
 ##### When using "Minna no Hon' yaku @ TexTra ®"
 
@@ -77,6 +82,14 @@ Ex. ~/.aws/credentials
 aws_access_key_id=AKIAIOSFODNN7EXAMPLE
 aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
+
+
+
+###### When using "Azure Translate"
+
+retouching
+
+
 
 
 
