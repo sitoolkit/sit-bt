@@ -16,7 +16,7 @@ import okhttp3.ResponseBody;
 public class AzureTranslator implements Translator {
 
   // TODO keyとlocationは利用者のローカルファイルから取得する
-  private static final String KEY = "<azure key>";
+  private static final String KEY = "set-your-azure-api-key";
   private static final String LOCATION = "japaneast";
   private static final OkHttpClient client = new OkHttpClient();
 
@@ -56,12 +56,13 @@ public class AzureTranslator implements Translator {
 
       return translatedText;
     } catch (IOException e) {
-      return "error";
+      return "Error: " + e.getMessage();
     }
   }
 
-  private static String getTranslatedTextByResponceBody(ResponseBody responseBody) {
-    String responseBodyAsString = responseBody.toString();
+  private static String getTranslatedTextByResponceBody(ResponseBody responseBody)
+      throws IOException {
+    String responseBodyAsString = responseBody.string();
     JsonArray jsonArray =
         com.google.gson.JsonParser.parseString(responseBodyAsString).getAsJsonArray();
     JsonArray translations = jsonArray.get(0).getAsJsonObject().getAsJsonArray("translations");
