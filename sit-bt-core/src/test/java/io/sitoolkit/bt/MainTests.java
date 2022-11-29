@@ -110,4 +110,19 @@ public class MainTests {
 
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
+
+  public void markdownFileAzureTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_azure.md").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_azure.md");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "azure"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_azure_expected.md").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
 }
