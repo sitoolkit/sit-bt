@@ -80,6 +80,22 @@ public class MainTests {
   }
 
   @Test
+  public void asciiDocFileJa2EnTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_en.adoc").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_ja.adoc");
+
+    main.execute(
+        new String[] {
+          "-m", "en2ja", inputFile.toString() + ":" + outputFile.toString(), "-e", "minhon"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_ja_expected.adoc").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
+
+  @Test
   public void markdownFileAwsTest() throws URISyntaxException, IOException {
     Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_aws.md").toURI());
     Path outputFile = inputFile.getParent().resolve("file_en_aws.md");
