@@ -27,6 +27,8 @@ public class AdocNodeConverter {
   private static final String ATTR_HEADER = "header-option";
   private static final String ATTR_COLS = "cols";
   private static final String ATTR_FORMAT = "format";
+  private static final String ATTR_CITETITLE = "citetitle";
+  private static final String ATTR_ATTRIBUTION = "attribution";
 
   private final Translator translator;
   private final String mode;
@@ -104,6 +106,49 @@ public class AdocNodeConverter {
         .append(translate(block.getContent().toString()))
         .append(LINE_SEPARATOR)
         .toString();
+  }
+
+  // Blockを以下のフォーマットで変換する.
+  // .title
+  // [style, attribution, citetitle]
+  // ____
+  // content
+  // ____
+  public String convertBlockQuote(Block block) {
+    StringBuilder result = new StringBuilder();
+    // title
+    result.append(getBlockNodeTitle(block));
+    // option
+    result.append(getBlockQuoteOption(block));
+    // content
+    return result
+        .append("____")
+        .append(LINE_SEPARATOR)
+        .append(translate(block.getContent().toString()))
+        .append(LINE_SEPARATOR)
+        .append("____")
+        .append(LINE_SEPARATOR)
+        .toString();
+  }
+
+  // BlockQuoteのoption部分を抽出する.
+  public String getBlockQuoteOption(Block block) {
+    StringBuilder option = new StringBuilder();
+    Map<String, Object> attr = block.getAttributes();
+    if (attr != null && !attr.isEmpty()) {
+      option.append("[");
+      if (attr.get(ATTR_STYLE) != null) {
+        option.append(attr.get(ATTR_STYLE).toString());
+      }
+      if (attr.get(ATTR_ATTRIBUTION) != null) {
+        option.append(", ").append(translate(attr.get(ATTR_ATTRIBUTION).toString()));
+      }
+      if (attr.get(ATTR_CITETITLE) != null) {
+        option.append(", ").append(translate(attr.get(ATTR_CITETITLE).toString()));
+      }
+      option.append("]").append(LINE_SEPARATOR);
+    }
+    return option.toString();
   }
 
   // Blockを以下のフォーマットで変換する.
