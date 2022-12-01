@@ -20,7 +20,10 @@ public class AdocConverter extends StringConverter {
     super(backend, opts);
     // DocumentNodeから翻訳エンジンの名称を取得し、adocNodeConverterを生成する.
     Document document = (Document) opts.get("document");
-    this.adocNodeConverter = new AdocNodeConverter(String.valueOf(document.getAttribute("engine")));
+    this.adocNodeConverter =
+        new AdocNodeConverter(
+            String.valueOf(document.getAttribute("engine")),
+            String.valueOf(document.getAttribute("mode")));
   }
 
   @Override

@@ -29,9 +29,11 @@ public class AdocNodeConverter {
   private static final String ATTR_FORMAT = "format";
 
   private final Translator translator;
+  private final String mode;
 
-  public AdocNodeConverter(String engineName) {
+  public AdocNodeConverter(String engineName, String mode) {
     this.translator = BasicTranslatorFactory.createTranslator(engineName);
+    this.mode = mode;
   }
 
   public String convertDocumentNode(Document document) {
@@ -312,6 +314,6 @@ public class AdocNodeConverter {
   }
 
   public String translate(String text) {
-    return translator.translate(TranslationMode.JA2EN, text);
+    return translator.translate(TranslationMode.parse(mode), text);
   }
 }
