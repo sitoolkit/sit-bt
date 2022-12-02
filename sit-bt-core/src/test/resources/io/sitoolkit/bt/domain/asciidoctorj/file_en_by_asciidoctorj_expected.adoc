@@ -82,6 +82,12 @@ get '/hi' do
 end
 ----
 
+=== in-line anchor
+
+[[bookmark-A]] inline anchors make arbitrary content viewable.
+
+[[bookmark-B, last paragraph]] xreflabels are used as links for cross-reference links.
+
 == blocs
 
 === block quote

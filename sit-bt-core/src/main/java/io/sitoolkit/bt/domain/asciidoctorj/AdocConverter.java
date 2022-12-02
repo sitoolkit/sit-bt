@@ -64,7 +64,6 @@ public class AdocConverter extends StringConverter {
           // 水平線を出力
           return new StringBuilder().append("---").append("\n").toString();
         default:
-          // TODO inline_anchorを変換するconvertメソッドを実装する.
           return ((Block) node).getContent().toString();
       }
     } else if (node instanceof Table) {
@@ -74,7 +73,11 @@ public class AdocConverter extends StringConverter {
     } else if (node instanceof DescriptionList) {
       return adocNodeConverter.convertDlistNode((DescriptionList) node);
     } else if (node instanceof PhraseNode) {
-      return adocNodeConverter.convertInlineBreakNode((PhraseNode) node);
+      if (transform.equals("inline_anchor")) {
+        return adocNodeConverter.convertInlineAnchor((PhraseNode) node);
+      } else {
+        return adocNodeConverter.convertInlineBreakNode((PhraseNode) node);
+      }
     }
     return "";
   }

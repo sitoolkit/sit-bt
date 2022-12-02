@@ -28,6 +28,7 @@ public class Ja2EnAdocConverterTest {
     Attributes attributes =
         AttributesBuilder.attributes()
             .attribute("engine", TranslationEngine.AWS.toString())
+            .attribute("mode", "ja2en")
             .backend("adoc")
             .get();
     asciidoctor.convertFile(

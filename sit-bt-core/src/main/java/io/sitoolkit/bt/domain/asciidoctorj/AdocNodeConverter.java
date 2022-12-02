@@ -353,6 +353,17 @@ public class AdocNodeConverter {
         .toString();
   }
 
+  // PhraseNodeを [[id, text]] のフォーマットで変換する.
+  public String convertInlineAnchor(PhraseNode phrase) {
+    StringBuilder result = new StringBuilder();
+    result.append("[[").append(phrase.getId());
+    if (StringUtils.isNotBlank(phrase.getText())) {
+      result.append(", ").append(phrase.getText());
+    }
+    result.append("]]");
+    return result.toString();
+  }
+
   // PhraseNodeを text + のフォーマットで変換する.
   public String convertInlineBreakNode(PhraseNode phrase) {
     return new StringBuilder().append(translate(phrase.getText())).append(" +").toString();
