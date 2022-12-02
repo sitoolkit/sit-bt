@@ -20,7 +20,10 @@ public class AdocConverter extends StringConverter {
     super(backend, opts);
     // DocumentNodeから翻訳エンジンの名称を取得し、adocNodeConverterを生成する.
     Document document = (Document) opts.get("document");
-    this.adocNodeConverter = new AdocNodeConverter(String.valueOf(document.getAttribute("engine")));
+    this.adocNodeConverter =
+        new AdocNodeConverter(
+            String.valueOf(document.getAttribute("engine")),
+            String.valueOf(document.getAttribute("mode")));
   }
 
   @Override
@@ -47,6 +50,8 @@ public class AdocConverter extends StringConverter {
           return adocNodeConverter.convertAdmonitionNode((Block) node);
         case "literal":
           return adocNodeConverter.convertLiteralNode((Block) node);
+        case "quote":
+          return adocNodeConverter.convertBlockQuote((Block) node);
         case "open":
           return adocNodeConverter.convertBlockNodeContentBetweenSymbols((Block) node, "--");
         case "listing":
@@ -59,7 +64,7 @@ public class AdocConverter extends StringConverter {
           // 水平線を出力
           return new StringBuilder().append("---").append("\n").toString();
         default:
-          // TODO quote, inline_quoted, inline_anchorを変換するconvertメソッドを実装する.
+          // TODO inline_anchorを変換するconvertメソッドを実装する.
           return ((Block) node).getContent().toString();
       }
     } else if (node instanceof Table) {
