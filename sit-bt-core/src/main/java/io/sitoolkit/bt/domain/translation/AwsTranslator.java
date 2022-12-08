@@ -7,7 +7,10 @@ import com.amazonaws.services.translate.AmazonTranslate;
 import com.amazonaws.services.translate.AmazonTranslateClient;
 import com.amazonaws.services.translate.model.TranslateTextRequest;
 import com.amazonaws.services.translate.model.TranslateTextResult;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @RequiredArgsConstructor
 public class AwsTranslator implements Translator {
@@ -31,14 +34,28 @@ public class AwsTranslator implements Translator {
   }
 
   private String translate(String text, String sourceLanguageCode, String targetLanguageCode) {
+    if (StringUtils.isEmpty(text)) {
+      return "";
+    }
 
-    TranslateTextRequest request =
-        new TranslateTextRequest()
-            .withText(text)
-            .withSourceLanguageCode(sourceLanguageCode)
-            .withTargetLanguageCode(targetLanguageCode);
-    TranslateTextResult result = translate.translateText(request);
+    // テキストを Amazon Translate が翻訳可能なサイズに分割する.
+    List<String> sentences = SegmentSplitter.splitSegmentByLineBreak(text, 5000);
+    List<TranslateTextRequest> requests = new ArrayList<>();
+    sentences.stream()
+        .map(
+            sentence ->
+                new TranslateTextRequest()
+                    .withText(sentence)
+                    .withSourceLanguageCode(sourceLanguageCode)
+                    .withTargetLanguageCode(targetLanguageCode))
+        .forEachOrdered(requests::add);
 
-    return result.getTranslatedText();
+    List<TranslateTextResult> results = new ArrayList<>();
+    requests.stream().map(translate::translateText).forEachOrdered(results::add);
+
+    StringBuilder translatedText = new StringBuilder();
+    results.forEach(result -> translatedText.append(result.getTranslatedText()));
+
+    return translatedText.toString();
   }
 }
