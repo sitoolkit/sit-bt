@@ -23,7 +23,7 @@ public abstract class TranslationAssembliesFactory {
       case "adoc":
         return new AdocTranslationAsbFactory(engine);
       default:
-        return new GenericTranslationAsbFactory(engine);
+        return new HtmlTranslationAsbFactory(engine);
     }
   }
 }

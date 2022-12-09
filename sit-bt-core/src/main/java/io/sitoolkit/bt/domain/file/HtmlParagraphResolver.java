@@ -6,8 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
-public class GenericParagraphResolver implements ParagraphResolver {
+public class HtmlParagraphResolver implements ParagraphResolver {
+
+  private static final String DOCTYPE_TAG_WITHOUT_EXMARK = "<DOCTYPE html>";
+  private static final String DOCTYPE_TAG = "<!DOCTYPE html>";
 
   @Override
   public List<Paragraph> resolve(Path file) {
@@ -33,6 +37,12 @@ public class GenericParagraphResolver implements ParagraphResolver {
 
   @Override
   public String correct(Paragraph paragraph) {
-    return paragraph.getTranslatedText();
+    String translatedText = paragraph.getTranslatedText();
+    // AWS TranslateでHTMLを翻訳する場合、DOCTYPEタグが崩れるため正しいタグに置換する
+    if (StringUtils.isNotEmpty(translatedText)
+        && translatedText.contains(DOCTYPE_TAG_WITHOUT_EXMARK)) {
+      translatedText = translatedText.replaceAll(DOCTYPE_TAG_WITHOUT_EXMARK, DOCTYPE_TAG);
+    }
+    return translatedText;
   }
 }
