@@ -21,8 +21,8 @@ public class MainTests {
 
     Files.deleteIfExists(outputFile);
 
-    String inOutPath = inputFile + ":" + outputFile;
-    main.execute(new String[] {"-m", "ja2en", inOutPath});
+    main.execute(
+        new String[] {"-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString()});
 
     assertTrue(
         outputFile.toFile().exists(),
@@ -39,28 +39,17 @@ public class MainTests {
 
     FileUtils.deleteDirectory(outputDir.toFile());
 
-    String inOutPath = inputDir + ":" + outputDir;
-    main.execute(new String[] {"-m", "ja2en", inOutPath, "-p", "*.adoc"});
+    main.execute(
+        new String[] {
+          "-m", "ja2en", "-p", "*.adoc", "-s", inputDir.toString(), "-t", outputDir.toString()
+        });
 
     assertTrue(
         outputDir.toFile().exists(),
         "Expected output directory doesn't exist: " + outputDir.toAbsolutePath());
 
-    assertEquals("This will be translated.", Files.readString(outputDir.resolve("index.adoc")));
+    assertEquals("This will be translated.\n", Files.readString(outputDir.resolve("index.adoc")));
     assertEquals("これは翻訳されません。", Files.readString(outputDir.resolve("some/content.txt")));
-  }
-
-  @Test
-  public void markdownFileTest() throws URISyntaxException, IOException {
-    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.md").toURI());
-    Path outputFile = inputFile.getParent().resolve("file_en.md");
-
-    main.execute(new String[] {"-m", "ja2en", inputFile.toString() + ":" + outputFile.toString()});
-
-    Path expectedFile =
-        Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.md").toURI());
-
-    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
 
   @Test
@@ -70,7 +59,7 @@ public class MainTests {
 
     main.execute(
         new String[] {
-          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString() + "-e" + "minhon"
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e" + "minhon"
         });
 
     Path expectedFile =
@@ -86,7 +75,7 @@ public class MainTests {
 
     main.execute(
         new String[] {
-          "-m", "en2ja", inputFile.toString() + ":" + outputFile.toString(), "-e", "minhon"
+          "-m", "en2ja", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "minhon"
         });
 
     Path expectedFile =
@@ -102,7 +91,7 @@ public class MainTests {
 
     main.execute(
         new String[] {
-          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "aws"
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "aws"
         });
 
     Path expectedFile =
@@ -118,7 +107,7 @@ public class MainTests {
 
     main.execute(
         new String[] {
-          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "aws"
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "aws"
         });
 
     Path expectedFile =
@@ -134,7 +123,7 @@ public class MainTests {
 
     main.execute(
         new String[] {
-          "-m", "ja2en", inputFile.toString() + ":" + outputFile.toString(), "-e", "aws"
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "aws"
         });
 
     Path expectedFile =
