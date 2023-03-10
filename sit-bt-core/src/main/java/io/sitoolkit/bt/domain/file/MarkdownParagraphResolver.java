@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MarkdownParagraphResolver {
+public class MarkdownParagraphResolver implements ParagraphResolver {
 
   private Pattern escapePrefixPattern = Pattern.compile("^##+");
 
+  @Override
   public List<Paragraph> resolve(Path file) {
 
     List<String> lines = null;
@@ -68,6 +69,7 @@ public class MarkdownParagraphResolver {
     return matcher.group();
   }
 
+  @Override
   public String correct(Paragraph paragraph) {
     return correct(
         paragraph.getText(),

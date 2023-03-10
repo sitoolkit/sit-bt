@@ -1,0 +1,190 @@
+= AsciiDoc file sample
+
+== Basic writing style
+
+There is no special markup required to write paragraphs.
+Simply write continuously from one line to multiple lines.
+
+When you start a new paragraph, include at least one blank line.
+
+=== Line breaks
+
+If a plus is specified at the end of a line, it is a break as a line break. +
+The color of rubies is red +
+The color of topaz is blue.
+
+[%hardbreaks]
+If you specify hardbreaks for a paragraph, a line break on the text will break +
+It is displayed as a line break as it is.
+
+=== footnotes
+
+NOTE: The footnote paragraphs indicate supplementary information.
+You can use different types of footnotes depending on the label at the beginning of the paragraph.
+
+TIP: Describe chips.
+
+IMPORTANT: Write down the important points.
+
+WARNING: Write a warning.
+
+CAUTION: Write a note.
+
+== lists
+
+=== unordered list
+
+.Unordered list title
+* Edgar Allen Poe
+* Sheri S. Tepper
+* Bill Bryson
+
+=== Nesting unordered lists
+
+.Nested titles for unordered lists
+* level 1
+** level 2
+*** level 3
+**** level 4
+***** level 5
+* level 1
+
+=== ordered list
+
+.Ordered List Titles
+. level 1
+.. level 2
+... level 3
+.... level 4
+..... level 5
+. level 1
+
+== rink
+
+=== literal
+
+ For code snippets, insert a space at the beginning of the line.
+
+=== literals (block elements)
+
+ error: An error has occurred
+
+=== Titled block elements (with syntax highlighting)
+
+[[app-listing]]
+[source,ruby]
+.app.rb
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+=== in-line anchor
+
+[[bookmark-A]] inline anchors make arbitrary content viewable.
+
+[[bookmark-B, last paragraph]] xreflabels are used as links for cross-reference links.
+
+== blocs
+
+=== block quote
+
+[quote, Abraham Lincoln, Address at the inauguration of Gettysburg Cemetery]
+____
+Eighty-seven years ago, our faithful birth to a new nation on this tradition, nurtured by a spirit of freedom and dedicated to the tradition that all people are created equal.
+
+____
+
+=== Simplified blockquote notation
+
+[quote, Thomas Jefferson, Thomas Jefferson Papers: Volume 11]
+____
+I think it's good to be rebellious sometimes.
+And like a physical storm, as needed in the political world.
+____
+
+=== sidebar
+
+.AsciiDoc History
+****
+AsciiDoc was released by Stuart Rackham in 2002/11
+AsciiDoc is for creating specialized texts like DocBook and LaTeX,
+It was designed to be able to write specialized sentences with simpler grammar.
+
+****
+
+=== Output without conversion
+
+++++
+<p>
+``+``で囲まれたブロックは、変換処理を行わずにそのままHMTLに出力されます。
+</p>
+
+<script src="http://gist.github.com/mojavelinux/5333524.js">
+</script>
+++++
+
+=== open
+
+--
+オープンブロックは汎用的に使えます。
+--
+
+[source]
+----
+puts "これはソースブロック！"
+----
+
+== tables
+
+=== 2×3 with title
+
+.table title
+|===
+|column name 1|column name 2|column name 3
+|cell 11|cell 12|cell 13
+|cell 21|cell 22|cell 23
+|===
+
+=== Title, 2x3 with header, cols specified
+
+.table title
+[options="header", cols="1,1,2"]
+|===
+|names|categories|rubrics
+|Firefox|browsers|It's an open source browser.
+It complies with standard specifications and is characterized by high performance and high portability.
+|Arquillian|tests|It's an innovative and highly scalable test platform.
+It makes it easy for developers to create real automated tests.
+|===
+
+=== CSV data import
+
+[options="header", format="csv"]
+|===
+artists,trucks,genres
+Baauer,Harlem Shake,hip hop
+The Lumineers,Ho hey,Folk rock
+|===
+
+== markdown format
+
+It is possible to write in markdown format only with Asciidoctor.
+
+=== fence code block
+
+[source,ruby]
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+=== horizon
+
+---

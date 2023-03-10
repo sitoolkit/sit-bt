@@ -48,23 +48,87 @@ public class MainTests {
         outputDir.toFile().exists(),
         "Expected output directory doesn't exist: " + outputDir.toAbsolutePath());
 
-    assertEquals("This will be translated.", Files.readString(outputDir.resolve("index.adoc")));
+    assertEquals("This will be translated.\n", Files.readString(outputDir.resolve("index.adoc")));
     assertEquals("これは翻訳されません。", Files.readString(outputDir.resolve("some/content.txt")));
   }
 
-  /*
   @Test
-  public void markdownFileTest() throws URISyntaxException, IOException {
-    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.md").toURI());
-    Path outputFile = inputFile.getParent().resolve("file_en.md");
+  public void asciiDocFileTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.adoc").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en.adoc");
 
     main.execute(
-        new String[] {"-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString()});
+        new String[] {
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e" + "minhon"
+        });
 
     Path expectedFile =
-        Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.md").toURI());
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_expected.adoc").toURI());
 
     assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
   }
-  */
+
+  @Test
+  public void asciiDocFileJa2EnTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_en.adoc").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_ja.adoc");
+
+    main.execute(
+        new String[] {
+          "-m", "en2ja", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "minhon"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_ja_expected.adoc").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
+
+  @Test
+  public void markdownFileAwsTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_aws.md").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_aws.md");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "aws"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_aws_expected.md").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
+
+  @Test
+  public void asciiDocFileAwsTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file_aws.adoc").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_aws.adoc");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "aws"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_aws_expected.adoc").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
+
+  @Test
+  public void html2htmlTest() throws URISyntaxException, IOException {
+    Path inputFile = Path.of(getClass().getResource("MainTests/fileTest/file.html").toURI());
+    Path outputFile = inputFile.getParent().resolve("file_en_aws.html");
+
+    main.execute(
+        new String[] {
+          "-m", "ja2en", "-s", inputFile.toString(), "-t", outputFile.toString(), "-e", "aws"
+        });
+
+    Path expectedFile =
+        Path.of(getClass().getResource("MainTests/fileTest/file_en_aws_expected.html").toURI());
+
+    assertEquals(Files.readString(expectedFile), Files.readString(outputFile));
+  }
 }

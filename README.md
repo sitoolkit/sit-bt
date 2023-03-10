@@ -27,7 +27,9 @@ Run the Batch Translator as a Java command or as a Maven Plugin.
 
 #### Creating an API Key
 
-The Batch Translator uses "Minna no Hon' yaku @ TexTra ®" as its translation engine. To use the translation function, create an account at the following site.
+The Batch Translator uses "Minna no Hon' yaku @ TexTra ®" and "Amazon Translate" as translation engines. To use the translation function, create an account on one of the following sites.
+
+##### When using "Minna no Hon' yaku @ TexTra ®"
 
 https://mt-auto-minhon-mlt.ucri.jgn-x.jp/
 
@@ -60,25 +62,43 @@ name=your_user_name
 ```
 
 
+
+##### When using "Amazon Translate"
+
+https://portal.aws.amazon.com/billing/signup#/start
+
+After creating an account, refer to the [User Guide](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-files.html) and save aws_access_key_id and aws_secret_access_key in the credentials file.
+
+Create a credentials file under the .aws folder in your home directory.
+
+Ex. ~/.aws/credentials
+```properties
+[default]
+aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
+
+
+
 #### Run with Java commands
 
 ```
 curl -o sit-bt-core-0.9.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core/0.9/sit-bt-core-0.9.jar
 
-java -jar sit-bt-core-0.9.jar -m Mode -s Source -t Target
+java -jar sit-bt-core-0.9.jar -m Mode -s Source -t Target -e Engine(minhon or aws)
 ```
 
 Example 1) Command to translate README _ ja. md from Japanese to English and to output to README. md
 
 ```
-java -jar sit-bt-core-0.9.jar -m ja2en -s README_ja.md -t README.md
+java -jar sit-bt-core-0.9.jar -m ja2en -s README_ja.md -t README.md -e aws
 ```
 
 
 Example 2) Command to translate all files with adoc extension under docs directory from Japanese to English and output to docs/en directory
 
 ```
-java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc -s docs -t docs/en
+java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc -s docs -t docs/en -e aws
 ```
 
 
@@ -102,7 +122,7 @@ Add the Batch Traslator Maven Plugin to pom. xml.
 
 
 ```
-mvn sit-bt:translate -Dmode=ja2en -Dsource=README_ja.md -Dtarget=README.md
+mvn sit-bt:translate -Dsource=README_ja.md -Dtarget=README.md -Dmode=ja2en -DfilePattern=*.adoc -Dengine=aws
 ```
 
 

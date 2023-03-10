@@ -21,11 +21,11 @@ public class MainMojo extends AbstractMojo {
   @Parameter(property = "bt.mode")
   private String mode;
 
-  @Parameter(property = "bt.configDir")
-  private String configDir;
-
   @Parameter(property = "bt.filePattern")
   private String filePattern;
+
+  @Parameter(property = "bt.engine")
+  private String engine;
 
   Main main = new Main();
 
@@ -34,11 +34,11 @@ public class MainMojo extends AbstractMojo {
 
     List<String> args = new ArrayList<>();
 
-    buildArgs(args, "--mode", mode);
-    buildArgs(args, "--file-pattern", filePattern);
-    buildArgs(args, "--config-dir", configDir);
     buildArgs(args, "--source", source);
     buildArgs(args, "--target", target);
+    buildArgs(args, "--mode", mode);
+    buildArgs(args, "--file-pattern", filePattern);
+    buildArgs(args, "--file-pattern", engine);
 
     main.execute(args.toArray(new String[args.size()]));
   }

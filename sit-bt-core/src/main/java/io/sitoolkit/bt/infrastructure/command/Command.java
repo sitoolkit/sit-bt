@@ -12,4 +12,6 @@ public class Command {
   private String target;
 
   private String filePattern;
+
+  private TranslationEngine engine;
 }
