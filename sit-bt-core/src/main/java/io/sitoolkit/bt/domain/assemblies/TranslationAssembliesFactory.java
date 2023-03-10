@@ -8,6 +8,7 @@ import io.sitoolkit.bt.infrastructure.util.FileTypeUtils;
 import java.nio.file.Path;
 
 public abstract class TranslationAssembliesFactory {
+
   public abstract ParagraphResolver getParagraphResolver();
 
   public abstract ParagraphGroup getParagraphGroup();
@@ -22,6 +23,8 @@ public abstract class TranslationAssembliesFactory {
         return new MarkdownTranslationAsbFactory(engine);
       case "adoc":
         return new AdocTranslationAsbFactory(engine);
+      case "html":
+        return new HtmlTranslationAsbFactory(engine);
       default:
         return new GenericTranslationAsbFactory(engine);
     }
