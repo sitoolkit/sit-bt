@@ -79,19 +79,19 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
 curl -o sit-bt-core-0.9.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core/0.9/sit-bt-core-0.9.jar
 
-java -jar sit-bt-core-0.9.jar -m Mode target
+java -jar sit-bt-core-0.9.jar -m Mode -s Source -t Target -e Engine(minhon or aws)
 ```
 
 例 1) README_ja.md を日本語から英語に翻訳し README.md に出力するコマンド
 
 ```
-java -jar sit-bt-core-0.9.jar -m ja2en README_ja.md:README.md
+java -jar sit-bt-core-0.9.jar -m ja2en -s README_ja.md -t README.md -e aws
 ```
 
 例 2) docs ディレクトリ以下の拡張子が adoc である全ファイルを日本語から英語に翻訳し、docs/en ディレクトリに出力するコマンド
 
 ```
-java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc docs:docs/en
+java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc -s docs -t docs/en -e aws
 ```
 
 #### Maven Plugin として実行
@@ -113,7 +113,7 @@ pom.xml に Batch Traslator の Maven Plugin を追加します。
 ```
 
 ```
-mvn sit-bt:translate -Dmode=ja2en -Dtarget=README_ja.md:README.md
+mvn sit-bt:translate -Dsource=README_ja.md -Dtarget=README.md -Dmode=ja2en -DfilePattern=*.adoc -Dengine=aws
 ```
 
 ### バグ報告、機能要望

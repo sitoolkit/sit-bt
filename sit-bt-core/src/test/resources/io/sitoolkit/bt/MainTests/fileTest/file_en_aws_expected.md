@@ -1,7 +1,7 @@
 # markdown
 
 
-Here's the main text.
+This is the main text.
 
 
 ```

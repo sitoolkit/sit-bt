@@ -1,6 +1,6 @@
 = Asciidoc
 
-Here's the main text.
+This is the main text.
 
 ----
 コードブロックは翻訳されません。

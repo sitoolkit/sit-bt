@@ -85,20 +85,20 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
 curl -o sit-bt-core-0.9.jar https://repo1.maven.org/maven2/io/sitoolkit/bt/sit-bt-core/0.9/sit-bt-core-0.9.jar
 
-java -jar sit-bt-core-0.9.jar -m Mode target
+java -jar sit-bt-core-0.9.jar -m Mode -s Source -t Target -e Engine(minhon or aws)
 ```
 
 Example 1) Command to translate README _ ja. md from Japanese to English and to output to README. md
 
 ```
-java -jar sit-bt-core-0.9.jar -m ja2en README_ja.md:README.md
+java -jar sit-bt-core-0.9.jar -m ja2en -s README_ja.md -t README.md -e aws
 ```
 
 
 Example 2) Command to translate all files with adoc extension under docs directory from Japanese to English and output to docs/en directory
 
 ```
-java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc docs:docs/en
+java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc -s docs -t docs/en -e aws
 ```
 
 
@@ -122,7 +122,7 @@ Add the Batch Traslator Maven Plugin to pom. xml.
 
 
 ```
-mvn sit-bt:translate -Dmode=ja2en -Dtarget=README_ja.md:README.md
+mvn sit-bt:translate -Dsource=README_ja.md -Dtarget=README.md -Dmode=ja2en -DfilePattern=*.adoc -Dengine=aws
 ```
 
 

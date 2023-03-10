@@ -12,6 +12,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Mojo(name = "translate")
 public class MainMojo extends AbstractMojo {
 
+  @Parameter(property = "bt.source")
+  private String source;
+
   @Parameter(property = "bt.target")
   private String target;
 
@@ -21,6 +24,9 @@ public class MainMojo extends AbstractMojo {
   @Parameter(property = "bt.filePattern")
   private String filePattern;
 
+  @Parameter(property = "bt.engine")
+  private String engine;
+
   Main main = new Main();
 
   @Override
@@ -28,12 +34,11 @@ public class MainMojo extends AbstractMojo {
 
     List<String> args = new ArrayList<>();
 
+    buildArgs(args, "--source", source);
+    buildArgs(args, "--target", target);
     buildArgs(args, "--mode", mode);
     buildArgs(args, "--file-pattern", filePattern);
-
-    if (target != null) {
-      args.add(String.join(" ", target.split(",")));
-    }
+    buildArgs(args, "--file-pattern", engine);
 
     main.execute(args.toArray(new String[args.size()]));
   }

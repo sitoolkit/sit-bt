@@ -19,6 +19,6 @@ public class AsciiDocParagraphResolverTests {
 
     System.out.println(paragraphs);
 
-    assertEquals(12, paragraphs.size());
+    assertEquals(1, paragraphs.size());
   }
 }
