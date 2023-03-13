@@ -1,26 +1,22 @@
 package io.sitoolkit.bt.domain.translation;
 
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.services.translate.AmazonTranslate;
-import com.amazonaws.services.translate.AmazonTranslateClient;
-import com.amazonaws.services.translate.model.TranslateTextRequest;
-import com.amazonaws.services.translate.model.TranslateTextResult;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
+import software.amazon.awssdk.regions.providers.AwsProfileRegionProvider;
+import software.amazon.awssdk.services.translate.TranslateClient;
+import software.amazon.awssdk.services.translate.model.TranslateTextRequest;
+import software.amazon.awssdk.services.translate.model.TranslateTextResponse;
 
 @RequiredArgsConstructor
 public class AwsTranslator implements Translator {
 
-  private static final AWSCredentialsProvider awsCreds =
-      DefaultAWSCredentialsProviderChain.getInstance();
-
-  private static final AmazonTranslate translate =
-      AmazonTranslateClient.builder()
-          .withCredentials(new AWSStaticCredentialsProvider(awsCreds.getCredentials()))
+  private static final TranslateClient translateClient =
+      TranslateClient.builder()
+          .credentialsProvider(ProfileCredentialsProvider.create())
+          .region((new AwsProfileRegionProvider()).getRegion())
           .build();
 
   @Override
@@ -37,24 +33,24 @@ public class AwsTranslator implements Translator {
     if (StringUtils.isEmpty(text)) {
       return "";
     }
-
     // テキストを Amazon Translate が翻訳可能なサイズに分割する.
     List<String> sentences = SegmentSplitter.splitSegmentByLineBreak(text, 5000);
     List<TranslateTextRequest> requests = new ArrayList<>();
     sentences.stream()
         .map(
             sentence ->
-                new TranslateTextRequest()
-                    .withText(sentence)
-                    .withSourceLanguageCode(sourceLanguageCode)
-                    .withTargetLanguageCode(targetLanguageCode))
+                TranslateTextRequest.builder()
+                    .text(sentence)
+                    .sourceLanguageCode(sourceLanguageCode)
+                    .targetLanguageCode(targetLanguageCode)
+                    .build())
         .forEachOrdered(requests::add);
 
-    List<TranslateTextResult> results = new ArrayList<>();
-    requests.stream().map(translate::translateText).forEachOrdered(results::add);
+    List<TranslateTextResponse> results = new ArrayList<>();
+    requests.stream().map(translateClient::translateText).forEachOrdered(results::add);
 
     StringBuilder translatedText = new StringBuilder();
-    results.forEach(result -> translatedText.append(result.getTranslatedText()));
+    results.forEach(result -> translatedText.append(result.translatedText()));
 
     return translatedText.toString();
   }
