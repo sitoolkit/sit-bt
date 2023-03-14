@@ -38,7 +38,7 @@ public class MainMojo extends AbstractMojo {
     buildArgs(args, "--target", target);
     buildArgs(args, "--mode", mode);
     buildArgs(args, "--file-pattern", filePattern);
-    buildArgs(args, "--file-pattern", engine);
+    buildArgs(args, "--engine", engine);
 
     main.execute(args.toArray(new String[args.size()]));
   }
