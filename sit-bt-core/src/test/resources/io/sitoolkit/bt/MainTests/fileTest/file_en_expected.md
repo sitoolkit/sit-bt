@@ -1,11 +1,11 @@
 #Markdown
 
-This is the text.
+This is the main text.
 
 ```
 コードブロックは翻訳されません。
 ```
 
 
-The text will be translated.
+The text is translated.
 
