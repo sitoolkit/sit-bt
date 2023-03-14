@@ -1,34 +1,34 @@
 = AsciiDoc file sample
 
-== Basic writing style
+== The basic way to write
 
-There is no special markup required to write paragraphs.
+No special markup is required to write paragraphs.
 Simply write continuously from one line to multiple lines.
 
-When you start a new paragraph, include at least one blank line.
+When starting a new paragraph, include at least one blank line.
 
-=== Line breaks
+=== Line change
 
-If a plus is specified at the end of a line, it is a break as a line break. +
-The color of rubies is red +
+If a plus is specified at the end of a line, it is a line break. +
+The color of the ruby is red. +
 The color of topaz is blue.
 
 [%hardbreaks]
-If you specify hardbreaks for a paragraph, a line break on the text will break +
+If hardbreaks is specified for a paragraph, line breaks on the text +
 It is displayed as a line break as it is.
 
 === footnotes
 
-NOTE: The footnote paragraphs indicate supplementary information.
+NOTE: Footnote paragraphs provide additional information.
 You can use different types of footnotes depending on the label at the beginning of the paragraph.
 
 TIP: Describe chips.
 
-IMPORTANT: Write down the important points.
+IMPORTANT: Describe the important matters.
 
 WARNING: Write a warning.
 
-CAUTION: Write a note.
+CAUTION: Describe your attention.
 
 == lists
 
@@ -39,9 +39,9 @@ CAUTION: Write a note.
 * Sheri S. Tepper
 * Bill Bryson
 
-=== Nesting unordered lists
+=== Unordered list nesting
 
-.Nested titles for unordered lists
+.Unordered List Nest Titles
 * level 1
 ** level 2
 *** level 3
@@ -51,7 +51,7 @@ CAUTION: Write a note.
 
 === ordered list
 
-.Ordered List Titles
+.The title of the ordered list
 . level 1
 .. level 2
 ... level 3
@@ -63,7 +63,7 @@ CAUTION: Write a note.
 
 === literal
 
- For code snippets, insert a space at the beginning of the line.
+ For code snippets, insert a single space at the beginning of the line.
 
 === literals (block elements)
 
@@ -82,41 +82,41 @@ get '/hi' do
 end
 ----
 
-=== in-line anchor
+=== inline anchor
 
-[[bookmark-A]] inline anchors make arbitrary content viewable.
+[[bookmark-A]] inline anchors make any content viewable.
 
-[[bookmark-B, last paragraph]] xreflabels are used as links for cross-reference links.
+[[bookmark-B, final paragraph]] xreflabel is used as a link for cross-reference links.
 
 == blocs
 
-=== block quote
+=== block quotes
 
 [quote, Abraham Lincoln, Address at the inauguration of Gettysburg Cemetery]
 ____
-Eighty-seven years ago, our faithful birth to a new nation on this tradition, nurtured by a spirit of freedom and dedicated to the tradition that all people are created equal.
+Eighty-Seven Years Ago, Our Nation Created a New Nation on This Nation, Nurtured by the Spirit of Freedom and Dedicated to the Nation That All People Are Created Equal.
 
 ____
 
-=== Simplified blockquote notation
+=== Block quote simplified notation
 
-[quote, Thomas Jefferson, Thomas Jefferson Papers: Volume 11]
+[quote, Thomas Jefferson, Thomas Jefferson's Papers: Volume 11]
 ____
-I think it's good to be rebellious sometimes.
-And like a physical storm, as needed in the political world.
+I think it's a good thing to rebel from time to time.
+And, like physical storms, when needed in the political world.
 ____
 
 === sidebar
 
-.AsciiDoc History
+.The history of AsciiDoc
 ****
 AsciiDoc was released by Stuart Rackham in 2002/11
-AsciiDoc is for creating specialized texts like DocBook and LaTeX,
+AsciiDoc is for creating specialized sentences like DocBook and LaTeX,
 It was designed to be able to write specialized sentences with simpler grammar.
 
 ****
 
-=== Output without conversion
+=== output without conversion
 
 ++++
 <p>
@@ -149,30 +149,30 @@ puts "これはソースブロック！"
 |cell 21|cell 22|cell 23
 |===
 
-=== Title, 2x3 with header, cols specified
+=== Title, 2×3 with header, specifies col
 
 .table title
 [options="header", cols="1,1,2"]
 |===
 |names|categories|rubrics
 |Firefox|browsers|It's an open source browser.
-It complies with standard specifications and is characterized by high performance and high portability.
+It complies with standard specifications and has the characteristics of high performance and high portability.
 |Arquillian|tests|It's an innovative and highly scalable test platform.
 It makes it easy for developers to create real automated tests.
 |===
 
-=== CSV data import
+=== Importing CSV data
 
 [options="header", format="csv"]
 |===
 artists,trucks,genres
-Baauer,Harlem Shake,hip hop
+Baauer,Harlem Shake,HIP HOP
 The Lumineers,Ho hey,Folk rock
 |===
 
 == markdown format
 
-It is possible to write in markdown format only with Asciidoctor.
+Writing in markdown format is possible only with Asciidoctor.
 
 === fence code block
 
