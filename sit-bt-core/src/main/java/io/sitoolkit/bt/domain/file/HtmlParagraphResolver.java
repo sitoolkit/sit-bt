@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class HtmlParagraphResolver implements ParagraphResolver {
@@ -20,7 +19,8 @@ public class HtmlParagraphResolver implements ParagraphResolver {
   private static final String TAG_TR_END = "\\<\\/tr\\>";
   private static final String TAG_BR = "\\<br\\>";
   private static final String REGEX_LINEBREAK = "\\r\\n|\\r|\\n";
-  private static final String REGEX_P_TABLEBLOCK = "(^.*\\<p class\\=\"tableblock\"\\>)(.*)(\\<\\/p\\>.*)";
+  private static final String REGEX_P_TABLEBLOCK =
+      "(^.*\\<p class\\=\"tableblock\"\\>)(.*)(\\<\\/p\\>.*)";
   private static final Pattern PATTERN_P_TABLEBLOCK = Pattern.compile(REGEX_P_TABLEBLOCK);
 
   @Override
@@ -44,7 +44,9 @@ public class HtmlParagraphResolver implements ParagraphResolver {
     for (String line : lines) {
 
       if (paragraph.isIgnored()
-          && (line.contains("</style>") || line.contains("</script>") || line.contains("</colgroup>"))) {
+          && (line.contains("</style>")
+              || line.contains("</script>")
+              || line.contains("</colgroup>"))) {
         paragraph.append(line);
         paragraphs.add(paragraph);
         paragraph = new Paragraph();
@@ -59,30 +61,27 @@ public class HtmlParagraphResolver implements ParagraphResolver {
         if (line.contains("</tr>")) {
           line = line.replaceAll(TAG_TR_END, REPLACEMENT_TR_END);
         }
-        // 暫定対応
-        // th,tdタグ内の <p class="tableblock"></p> に囲まれたテキストを翻訳した際、
-        // テキストがtdタグ外に出力される事象を防ぐため、テキストを置換用文字列で囲む
-        if (line.contains("<p class=\"tableblock\">")) {
-          Matcher matcher = PATTERN_P_TABLEBLOCK.matcher(line);
-          if (matcher.matches()) {
-            // group(2) は pタグ内のテキスト部分
-            line = matcher.group(1)
-                + "==P=="
-                + matcher.group(2)
-                + "==P=="
-                + matcher.group(3);
-            // 暫定対応
-            // tdタグ内のpタグ内のテキストにbrタグが存在する場合、
-            // brタグがtdタグの外へ出力される事象を防ぐため、brタグを削除する
-            if (line.contains("<br>")) {
-              line = line.replaceAll(TAG_BR, "");
+        // 翻訳時の記法崩れ防止のため、thタグ、tdタグを1行にまとめて整形する
+        if (line.contains("</th>") || line.contains("</td>")) {
+          String tableDataStr = (tableData.append(line.replaceAll(REGEX_LINEBREAK, ""))).toString();
+          // 暫定対応
+          // th,tdタグ内の <p class="tableblock"></p> に囲まれたテキストを翻訳した際、
+          // テキストがtdタグ外に出力される事象を防ぐため、テキストを置換用文字列で囲む
+          if (tableDataStr.contains("<p class=\"tableblock\">")) {
+            Matcher matcher = PATTERN_P_TABLEBLOCK.matcher(tableDataStr);
+            if (matcher.matches()) {
+              // group(2) は pタグ内のテキスト部分
+              tableDataStr =
+                  matcher.group(1) + "==P==" + matcher.group(2) + "==P==" + matcher.group(3);
+              // 暫定対応
+              // tdタグ内のpタグ内のテキストにbrタグが存在する場合、
+              // brタグがtdタグの外へ出力される事象を防ぐため、brタグを削除する
+              if (tableDataStr.contains("<br>")) {
+                tableDataStr = tableDataStr.replaceAll(TAG_BR, "");
+              }
             }
           }
-        }
-        // 翻訳時の記法崩れ防止のため、thタグ、tdタグは1行にまとめる
-        if (line.contains("</th>") || line.contains("</td>")) {
-          tableData.append(line.replaceAll(REGEX_LINEBREAK, ""));
-          paragraph.append(tableData.toString());
+          paragraph.append(tableDataStr);
           tableData.delete(0, tableData.length());
           inTableData = false;
           continue;
@@ -142,10 +141,11 @@ public class HtmlParagraphResolver implements ParagraphResolver {
 
     // 置換用文字列を元に戻す
     if (StringUtils.isNotBlank(translatedText)) {
-      translatedText = translatedText
-          .replaceAll(REPLACEMENT_TR_START, TAG_TR_START)
-          .replaceAll(REPLACEMENT_TR_END, TAG_TR_END)
-          .replaceAll(REPLACEMENT_P, "");
+      translatedText =
+          translatedText
+              .replaceAll(REPLACEMENT_TR_START, TAG_TR_START)
+              .replaceAll(REPLACEMENT_TR_END, TAG_TR_END)
+              .replaceAll(REPLACEMENT_P, "");
     }
 
     if (escapePrefix.isEmpty()) {
