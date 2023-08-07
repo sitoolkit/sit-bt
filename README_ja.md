@@ -23,7 +23,7 @@ Batch Translator を実行するには以下のソフトウェアが必要です
 Batch Translator は Java コマンド、または Maven Plugin として実行します。
 
 1. [API Key の作成](#API Key の作成)
-1. [Java コマンドで実行](Java コマンドで実行) or [Maven Plugin として実行](Maven Plugin として実行)
+2. [Java コマンドで実行](Java コマンドで実行) or [Maven Plugin として実行](Maven Plugin として実行)
 
 #### API Key の作成
 
@@ -79,17 +79,17 @@ java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc docs:docs/en
 
 #### Maven Plugin として実行
 
-pom.xml に Batch Traslator の Maven Plugin を追加します。
+pom.xml に Batch Translator の Maven Plugin を追加します。
 
 - pom.xml
 
 ```xml
-<bulid>
+<build>
   <plugins>
     <plugin>
         <groupId>io.sitoolkit.bt</groupId>
         <artifactId>sit-bt-maven-plugin</artifactId>
-        <version>0.8</version>
+        <version>0.9</version>
     </plugin>
   </plugins>
 </build>

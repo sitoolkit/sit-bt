@@ -23,7 +23,7 @@ The following software is required to run the Batch Translator :
 Run the Batch Translator as a Java command or as a Maven Plugin.
 
 1. Create API Key (Create #API Key)
-1. Run as a Java Command or as a Maven Plugin
+2. Run as a Java Command or as a Maven Plugin
 
 #### Creating an API Key
 
@@ -84,12 +84,12 @@ java -jar sit-bt-core-0.9.jar -m ja2en -p *.adoc docs:docs/en
 
 #### Run as Maven Plugin
 
-Add the Batch Traslator Maven Plugin to pom. xml.
+Add the Batch Translator Maven Plugin to pom.xml.
 
 - pom.xml
 
 ```xml
-<bulid>
+<build>
   <plugins>
     <plugin>
         <groupId>io.sitoolkit.bt</groupId>
